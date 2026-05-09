@@ -1,0 +1,608 @@
+.key-management {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 12px;
+    background: var(--bg);
+    color: var(--t0);
+}
+
+@media (min-width: 640px) {
+    .key-management {
+        padding: 16px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .key-management {
+        padding: 24px;
+    }
+}
+
+.km-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--bd);
+    gap: 24px;
+}
+
+.km-breadcrumb {
+    font-size: 24px;
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+    letter-spacing: -0.5px;
+}
+
+.km-tabs {
+    display: flex;
+    gap: 8px;
+}
+
+.km-tab {
+    padding: 6px 14px;
+    background: transparent;
+    border: 1px solid var(--bd1);
+    border-radius: 4px;
+    color: var(--t1);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.km-tab.active {
+    background: rgba(168, 85, 247, 0.15);
+    border-color: #A855F7;
+    color: #A855F7;
+}
+
+.km-tab:hover {
+    border-color: var(--bd2);
+}
+
+.km-section {
+    background: var(--s1);
+    border: 1px solid var(--bd1);
+    border-radius: var(--radius-md);
+    padding: 24px;
+}
+
+.km-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--bd);
+}
+
+.km-section-header h3 {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.km-stat {
+    font-size: 10px;
+    color: var(--t2);
+    background: rgba(255, 255, 255, 0.05);
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.km-tree {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.km-tree-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.km-tree-node {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 12px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--bd1);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.km-tree-node:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--bd2);
+}
+
+.km-tree-node.healthy {
+    border-left: 3px solid #10B981;
+}
+
+.km-tree-node.expiring {
+    border-left: 3px solid #FBBF24;
+}
+
+.km-tree-node.compromised {
+    border-left: 3px solid #F43F5E;
+}
+
+.km-expand-icon,
+.km-expand-icon-empty {
+    font-size: 10px;
+    min-width: 12px;
+    color: var(--t2);
+}
+
+.km-node-icon {
+    font-size: 12px;
+}
+
+.km-node-name {
+    font-size: 11px;
+    font-weight: 600;
+    flex: 1;
+}
+
+.km-status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.km-status-dot.healthy {
+    background: #10B981;
+}
+
+.km-status-dot.expiring {
+    background: #FBBF24;
+}
+
+.km-status-dot.compromised {
+    background: #F43F5E;
+}
+
+.km-depth-0 {
+    margin-left: 0;
+}
+
+.km-depth-1 {
+    margin-left: 24px;
+}
+
+.km-depth-2 {
+    margin-left: 48px;
+}
+
+.km-node-details {
+    margin: 8px 0 0 24px;
+    padding: 10px 12px;
+    background: rgba(0, 0, 0, 0.15);
+    border-left: 2px solid var(--bd1);
+    border-radius: 4px;
+    animation: slideDown 0.2s ease-out;
+}
+
+.km-detail-row {
+    display: grid;
+    grid-template-columns: 100px 1fr;
+    gap: 12px;
+    margin-bottom: 6px;
+    font-size: 10px;
+}
+
+.km-detail-row:last-child {
+    margin-bottom: 0;
+}
+
+.km-detail-row label {
+    font-weight: 600;
+    color: var(--t2);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.km-detail-row code {
+    font-family: 'JetBrains Mono', monospace;
+    color: #3B82F6;
+    background: rgba(59, 130, 246, 0.1);
+    padding: 2px 4px;
+    border-radius: 3px;
+}
+
+.km-tree-children {
+    margin-top: 4px;
+}
+
+.km-hsm-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+}
+
+.km-hsm-card {
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--bd1);
+    border-radius: var(--radius-md);
+    border-left: 4px solid;
+}
+
+.km-hsm-card.km-hsm-online {
+    border-left-color: #10B981;
+}
+
+.km-hsm-card.km-hsm-offline {
+    border-left-color: #F43F5E;
+}
+
+.km-hsm-card.km-hsm-warning {
+    border-left-color: #FBBF24;
+}
+
+.km-hsm-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.km-hsm-header h4 {
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.km-status-badge {
+    display: inline-block;
+    padding: 3px 8px;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.km-status-badge.km-status-online {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10B981;
+}
+
+.km-status-badge.km-status-offline {
+    background: rgba(244, 63, 94, 0.2);
+    color: #F43F5E;
+}
+
+.km-status-badge.km-status-warning {
+    background: rgba(251, 191, 36, 0.2);
+    color: #FBBF24;
+}
+
+.km-status-badge.km-status-standby {
+    background: rgba(34, 211, 238, 0.2);
+    color: #22D3EE;
+}
+
+.km-status-badge.km-status-active {
+    background: rgba(16, 185, 129, 0.2);
+    color: #10B981;
+}
+
+.km-hsm-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.km-metric {
+    font-size: 9px;
+}
+
+.km-metric label {
+    display: block;
+    color: var(--t2);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 4px;
+}
+
+.km-metric-value {
+    font-size: 12px;
+    font-weight: 700;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--t0);
+}
+
+.km-metric-bar {
+    width: 100%;
+    height: 4px;
+    background: var(--bd1);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.km-metric-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #10B981, #06B6D4);
+    border-radius: 2px;
+}
+
+.km-metric-pct {
+    font-size: 9px;
+    color: var(--t2);
+}
+
+.km-hsm-footer {
+    border-top: 1px solid var(--bd);
+    padding-top: 8px;
+}
+
+.km-failover-badge {
+    font-size: 9px;
+    color: #10B981;
+    font-weight: 600;
+}
+
+.km-topology-grid {
+    display: grid;
+    grid-template-columns: 1fr 300px;
+    gap: 24px;
+}
+
+.km-topology-diagram {
+    display: flex;
+    gap: 16px;
+    justify-content: space-around;
+    align-items: center;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--bd1);
+}
+
+.km-topo-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 120px;
+    padding: 12px;
+    border: 2px solid;
+    border-radius: var(--radius-md);
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.km-topo-node.km-topo-active {
+    border-color: #10B981;
+    background: rgba(16, 185, 129, 0.1);
+}
+
+.km-topo-node.km-topo-standby {
+    border-color: #FBBF24;
+    background: rgba(251, 191, 36, 0.1);
+}
+
+.km-topo-node.km-topo-offline {
+    border-color: #F43F5E;
+    background: rgba(244, 63, 94, 0.1);
+}
+
+.km-topo-node:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.km-topo-region {
+    font-size: 9px;
+    color: var(--t2);
+    font-family: 'JetBrains Mono', monospace;
+    margin-bottom: 4px;
+}
+
+.km-topo-name {
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.km-topo-keys {
+    font-size: 10px;
+    color: var(--t2);
+    margin-top: 4px;
+}
+
+.km-failover-info {
+    font-size: 8px;
+    margin-top: 4px;
+}
+
+.km-failover-time {
+    color: var(--t2);
+    font-family: 'JetBrains Mono', monospace;
+}
+
+.km-topology-details {
+    padding: 16px;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--bd1);
+}
+
+.km-topology-details h5 {
+    font-size: 11px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.km-gantt {
+    border: 1px solid var(--bd1);
+    border-radius: var(--radius-md);
+    overflow: auto;
+    background: rgba(0, 0, 0, 0.05);
+}
+
+.km-gantt-timeline {
+    display: flex;
+    height: 40px;
+    background: rgba(0, 0, 0, 0.1);
+    border-bottom: 1px solid var(--bd);
+    position: sticky;
+    top: 0;
+}
+
+.km-gantt-day {
+    flex: 0 0 33px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--t2);
+    border-right: 1px solid var(--bd);
+}
+
+.km-gantt-bars {
+    min-width: 100%;
+}
+
+.km-gantt-row {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border-bottom: 1px solid var(--bd);
+    align-items: center;
+}
+
+.km-gantt-row:last-child {
+    border-bottom: none;
+}
+
+.km-gantt-label {
+    width: 200px;
+    flex-shrink: 0;
+}
+
+.km-gantt-key {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--t0);
+}
+
+.km-gantt-status {
+    display: block;
+    font-size: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--t2);
+}
+
+.km-gantt-status.km-gantt-completed {
+    color: #10B981;
+}
+
+.km-gantt-status.km-gantt-in-progress {
+    color: #22D3EE;
+}
+
+.km-gantt-status.km-gantt-pending {
+    color: #FBBF24;
+}
+
+.km-gantt-bar-container {
+    flex: 1;
+    position: relative;
+    height: 24px;
+}
+
+.km-gantt-bar {
+    position: absolute;
+    height: 24px;
+    border-radius: 3px;
+    top: 0;
+}
+
+.km-gantt-bar.km-gantt-completed {
+    background: #10B981;
+    opacity: 0.7;
+}
+
+.km-gantt-bar.km-gantt-in-progress {
+    background: #22D3EE;
+    opacity: 0.8;
+    animation: pulse 2s ease-in-out infinite;
+}
+
+.km-gantt-bar.km-gantt-pending {
+    background: #FBBF24;
+    opacity: 0.5;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 1024px) {
+    .km-topology-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .km-hsm-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .key-management {
+        padding: 16px;
+        gap: 16px;
+    }
+
+    .km-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .km-tabs {
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    .km-topology-diagram {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .km-topo-node {
+        width: 100px;
+        height: 100px;
+    }
+
+    .km-gantt {
+        font-size: 9px;
+    }
+
+    .km-gantt-label {
+        width: 150px;
+    }
+}

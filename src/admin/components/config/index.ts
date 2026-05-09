@@ -1,0 +1,5 @@
+export { SecurityConfigPanel } from './SecurityConfigPanel'
+export { AutomationConfigPanel } from './AutomationConfigPanel'
+export { ComplianceConfigPanel } from './ComplianceConfigPanel'
+export { DangerZonePanel } from './DangerZonePanel'
+export { IntegrationConfigPanel } from './IntegrationConfigPanel'

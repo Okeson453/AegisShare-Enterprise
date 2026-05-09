@@ -1,0 +1,205 @@
+/**
+ * Global Layout Fixes
+ * Applies layout corrections to all pages
+ * Fixes: Sidebar overlap, proper content spacing, responsive adjustments
+ */
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* DESKTOP + TABLET: Fixed Sidebar Layout */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+@media (min-width: 1024px) {
+
+    /* All page containers need proper left margin to avoid sidebar overlap */
+    .container-page,
+    .page-wrapper,
+    .content-area,
+    .page-content,
+    [class*="page-container"],
+    [class*="content-container"] {
+        margin-left: 0;
+        /* Sidebar margin is handled by layout-main in AppLayout */
+    }
+
+    /* Ensure flex containers stretch properly */
+    [role="main"],
+    main {
+        flex: 1;
+        min-width: 0;
+        min-height: 0;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* MOBILE: Full Width Layout */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 1023px) {
+
+    /* Mobile pages take full width */
+    .container-page {
+        padding: 12px 12px;
+    }
+
+    /* Reduce padding on smaller screens */
+    [class*="page"] {
+        padding: 12px;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* UNIVERSAL FIXES */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+/* Prevent horizontal overflow */
+html,
+body,
+#root {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+}
+
+/* Fix flex containers to not grow beyond bounds */
+.layout-root,
+.app-layout,
+.layout-main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Ensure content areas don't overflow */
+main[id="main-content"],
+main[role="main"],
+.main-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Fix page headers being clipped */
+h1,
+h2,
+h3,
+[class*="header"],
+[class*="title"] {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+/* Cards and containers should not overflow */
+[class*="card"],
+[class*="container"],
+[class*="wrapper"] {
+    box-sizing: border-box;
+    min-width: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* GRID AND LAYOUT UTILITIES */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+/* Bento grid responsive fixes */
+.bento {
+    overflow-x: hidden;
+    width: 100%;
+}
+
+@media (max-width: 1024px) {
+
+    .bento-5,
+    .bento-4 {
+        grid-column: span 6;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .bento-6,
+    .bento-5,
+    .bento-4,
+    .bento-3,
+    .bento-2,
+    .bento-1 {
+        grid-column: span 12;
+    }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* SCROLLABLE AREAS */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+/* Fix scrollable containers to not break layout */
+[class*="scroll"],
+[class*="overflow"] {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+/* Remove margin/padding that causes overflow */
+.audit-table-wrapper,
+.table-wrapper,
+[class*="table"] {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* SPECIFIC PAGE FIXES */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+/* Compliance Hub */
+.compliance-hub {
+    width: 100%;
+    padding: 24px 20px;
+    overflow-x: hidden;
+}
+
+@media (max-width: 768px) {
+    .compliance-hub {
+        padding: 16px 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .compliance-hub {
+        padding: 12px 8px;
+    }
+}
+
+/* Command Center */
+.command-center {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Generic page spacing fix */
+[class*="-hub"],
+[class*="-center"],
+[class*="-panel"] {
+    width: 100%;
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════ */
+/* ANIMATION FIXES */
+/* ═══════════════════════════════════════════════════════════════════════ */
+
+/* Prevent layout shift during animations */
+[class*="animate"],
+[class*="transition"] {
+    will-change: auto;
+}
+
+/* Smooth transitions during sidebar collapse */
+.layout-main {
+    transition: margin-left 280ms cubic-bezier(0.16, 1, 0.3, 1);
+}

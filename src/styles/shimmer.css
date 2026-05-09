@@ -1,0 +1,141 @@
+.shimmer-container {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.shimmer-text,
+.shimmer-avatar,
+.shimmer-line,
+.shimmer-button {
+    background: linear-gradient(90deg,
+            rgba(30, 41, 59, 0.1) 0%,
+            rgba(30, 41, 59, 0.2) 50%,
+            rgba(30, 41, 59, 0.1) 100%);
+    background-size: 200% 100%;
+    animation: shimmer-wave 2s infinite;
+    border-radius: 4px;
+}
+
+.shimmer-avatar {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    flex-shrink: 0;
+}
+
+.shimmer-line {
+    height: 16px;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.shimmer-button {
+    height: 40px;
+    width: 120px;
+    border-radius: 8px;
+}
+
+.shimmer-text {
+    height: 16px;
+    width: 100%;
+    border-radius: 4px;
+}
+
+.shimmer-spacing {
+    margin-bottom: 8px;
+}
+
+.shimmer-card-wrapper {
+    padding: 16px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.5), rgba(15, 23, 42, 0.3));
+    border: 1px solid rgba(139, 164, 194, 0.1);
+    border-radius: 12px;
+    backdrop-filter: blur(8px);
+}
+
+.shimmer-card-header {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    margin-bottom: 16px;
+}
+
+.shimmer-card-header .shimmer-avatar {
+    width: 48px;
+    height: 48px;
+}
+
+.shimmer-card-body {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.shimmer-group {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.shimmer-user-row {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.1));
+    border: 1px solid rgba(139, 164, 194, 0.1);
+    border-radius: 8px;
+}
+
+.shimmer-activity-item {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    background: linear-gradient(135deg, rgba(15, 23, 42, 0.3), rgba(15, 23, 42, 0.1));
+    border-left: 3px solid rgba(34, 211, 238, 0.3);
+    border-radius: 4px;
+}
+
+@keyframes shimmer-wave {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: calc(200% + 200px) 0;
+    }
+}
+
+@keyframes shimmer-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.shimmer-pulse {
+    animation: shimmer-pulse 2s ease-in-out infinite;
+}
+
+.shimmer-container> :nth-child(1) {
+    animation-delay: 0ms;
+}
+
+.shimmer-container> :nth-child(2) {
+    animation-delay: 100ms;
+}
+
+.shimmer-container> :nth-child(3) {
+    animation-delay: 200ms;
+}
+
+.shimmer-container> :nth-child(n + 4) {
+    animation-delay: 300ms;
+}

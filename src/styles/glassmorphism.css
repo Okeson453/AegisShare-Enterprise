@@ -1,0 +1,342 @@
+/* =============================================================================
+   AegisShare Enterprise — Glassmorphism & Surface Design System
+   
+   Advanced frosted glass surface treatments with backdrop effects and
+   layered depth through opacity and blur combinations.
+   ============================================================================= */
+
+/* =============================================================================
+   GLASSMORPHISM CARDS — frosted surfaces at different elevation levels
+   ============================================================================= */
+
+.surface-glass-base {
+    background: var(--glass-1);
+    backdrop-filter: blur(8px);
+    border: 1px solid var(--glass-bd);
+    border-radius: var(--radius-lg);
+}
+
+.surface-glass-elevated {
+    background: var(--glass-2);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-bd);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.surface-glass-prominent {
+    background: var(--glass-3);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--glass-bd);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.15),
+        0 16px 48px rgba(0, 0, 0, 0.4),
+        inset 0 1px 1px rgba(255, 255, 255, 0.08);
+}
+
+/* =============================================================================
+   INTERACTIVE GLASS STATES
+   ============================================================================= */
+
+.surface-glass-interactive {
+    background: var(--glass-2);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-bd);
+    border-radius: var(--radius-lg);
+    transition: all var(--dur-fast) var(--ease-sharp);
+    cursor: pointer;
+}
+
+.surface-glass-interactive:hover {
+    background: var(--glass-3);
+    border-color: rgba(34, 211, 238, 0.3);
+    box-shadow: 0 8px 24px rgba(34, 211, 238, 0.15),
+        inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.surface-glass-interactive.active {
+    background: var(--glass-3);
+    border-color: var(--cy);
+    box-shadow: var(--glass-glow);
+}
+
+/* =============================================================================
+   TINTED GLASS SURFACES — color-specific glass treatments
+   ============================================================================= */
+
+/* Cyan (primary brand) glass */
+.surface-glass-cyan {
+    background: rgba(34, 211, 238, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: var(--radius-lg);
+}
+
+.surface-glass-cyan:hover {
+    background: rgba(34, 211, 238, 0.12);
+    border-color: rgba(34, 211, 238, 0.3);
+}
+
+/* Emerald (success) glass */
+.surface-glass-emerald {
+    background: rgba(16, 185, 129, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    border-radius: var(--radius-lg);
+}
+
+/* Amber (warning) glass */
+.surface-glass-amber {
+    background: rgba(245, 158, 11, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(245, 158, 11, 0.2);
+    border-radius: var(--radius-lg);
+}
+
+/* Rose (danger) glass */
+.surface-glass-rose {
+    background: rgba(244, 63, 94, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(244, 63, 94, 0.2);
+    border-radius: var(--radius-lg);
+}
+
+/* Violet (info) glass */
+.surface-glass-violet {
+    background: rgba(167, 139, 250, 0.08);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(167, 139, 250, 0.2);
+    border-radius: var(--radius-lg);
+}
+
+/* =============================================================================
+   GLASS BACKDROP / OVERLAY SURFACES
+   
+   For modals, dropdowns, and overlay panels that need blur effect beneath.
+   ============================================================================= */
+
+.surface-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(2, 9, 18, 0.75);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: var(--z-modal-backdrop);
+}
+
+.surface-modal {
+    background: rgba(5, 14, 27, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-bd);
+    border-radius: var(--radius-xl);
+    box-shadow: 0 50px 100px rgba(0, 0, 0, 0.6),
+        0 0 0 1px rgba(255, 255, 255, 0.05),
+        inset 0 1px 2px rgba(255, 255, 255, 0.08);
+}
+
+.surface-menu {
+    background: rgba(8, 15, 28, 0.95);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-bd);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.surface-popover {
+    background: var(--glass-2);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-bd);
+    border-radius: var(--radius-lg);
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+/* =============================================================================
+   GLASS PANEL WITH ACCENT BORDER
+   
+   Cards with colored left/top border accent for categorization and hierarchy.
+   ============================================================================= */
+
+.surface-glass-accent {
+    position: relative;
+    background: var(--glass-2);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-bd);
+    border-radius: var(--radius-lg);
+    border-left-width: 3px;
+}
+
+.surface-glass-accent.accent-cyan {
+    border-left-color: var(--cy);
+}
+
+.surface-glass-accent.accent-emerald {
+    border-left-color: var(--em);
+}
+
+.surface-glass-accent.accent-amber {
+    border-left-color: var(--am);
+}
+
+.surface-glass-accent.accent-rose {
+    border-left-color: var(--rd);
+}
+
+.surface-glass-accent.accent-violet {
+    border-left-color: var(--vl);
+}
+
+.surface-glass-accent.accent-gold {
+    border-left-color: var(--go);
+}
+
+/* =============================================================================
+   GLASS CARD WITH INNER GLOW
+   
+   Elevated surfaces with inset lights and glowing borders for premium feel.
+   ============================================================================= */
+
+.surface-glass-glow {
+    background: var(--glass-2);
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-bd);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--glass-glow);
+    position: relative;
+}
+
+.surface-glass-glow::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+    padding: 1px;
+    background: linear-gradient(45deg,
+            rgba(34, 211, 238, 0.2),
+            transparent,
+            rgba(34, 211, 238, 0.1));
+    pointer-events: none;
+}
+
+/* =============================================================================
+   MATTE SURFACE — non-glass, elevated solid background
+   ============================================================================= */
+
+.surface-matte {
+    background: var(--s1);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    transition: all var(--dur-fast) var(--ease-sharp);
+}
+
+.surface-matte:hover {
+    background: var(--s2);
+    border-color: var(--border-hover);
+}
+
+.surface-matte.elevated {
+    background: var(--s2);
+    border-color: var(--border-hover);
+    box-shadow: var(--shadow-lg);
+}
+
+/* =============================================================================
+   SURFACE COMBINATIONS — for complex layouts
+   ============================================================================= */
+
+/* Glass card on matte container */
+.surface-composite {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: var(--spacing-lg);
+}
+
+.surface-composite>.surface-glass-elevated {
+    margin: 0;
+    box-shadow: none;
+}
+
+/* =============================================================================
+   UTILITY STATES — light/dark mode and emphasis levels
+   ============================================================================= */
+
+.surface-subtle {
+    background: var(--glass-1);
+    border: 1px solid transparent;
+    color: var(--t2);
+}
+
+.surface-emphasis {
+    background: var(--cy1);
+    border: 1px solid var(--cy);
+    color: var(--cy);
+    box-shadow: 0 0 16px rgba(34, 211, 238, 0.2);
+}
+
+.surface-emphasis.warning {
+    background: var(--am1);
+    border-color: var(--am);
+    color: var(--am);
+    box-shadow: 0 0 16px rgba(245, 158, 11, 0.2);
+}
+
+.surface-emphasis.danger {
+    background: var(--rd1);
+    border-color: var(--rd);
+    color: var(--rd);
+    box-shadow: 0 0 16px rgba(244, 63, 94, 0.2);
+}
+
+/* =============================================================================
+   DEPTH PROGRESSION — layering glass surfaces
+   ============================================================================= */
+
+.surface-depth-1 {
+    background: var(--glass-1);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(8px);
+}
+
+.surface-depth-2 {
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    backdrop-filter: blur(12px);
+}
+
+.surface-depth-3 {
+    background: var(--glass-3);
+    border: 1px solid var(--glass-bd);
+    backdrop-filter: blur(16px);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.surface-depth-4 {
+    background: rgba(30, 41, 59, 0.85);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.4);
+}
+
+/* =============================================================================
+   GLASS CARD HOVER INTENSITY
+   
+   Provides options for hover response intensity.
+   ============================================================================= */
+
+.surface-glass-hover-light:hover {
+    background: var(--glass-2);
+    border-color: var(--border-hover);
+}
+
+.surface-glass-hover-medium:hover {
+    background: var(--glass-3);
+    border-color: rgba(34, 211, 238, 0.3);
+    box-shadow: 0 8px 24px rgba(34, 211, 238, 0.1);
+}
+
+.surface-glass-hover-prominent:hover {
+    background: var(--glass-3);
+    border-color: var(--cy);
+    box-shadow: var(--glass-glow);
+    transform: translateY(-2px);
+}

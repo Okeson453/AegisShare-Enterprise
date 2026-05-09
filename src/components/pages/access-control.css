@@ -1,0 +1,1624 @@
+/* AccessControl Component - User Registry, RBAC Heatmap, JIT Access Panel */
+
+/* Animation Keyframes */
+@keyframes arcGaugeDraw {
+    from { stroke-dashoffset: 314; }
+    to { stroke-dashoffset: 0; }
+}
+
+@keyframes riskPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(244, 67, 54, 0.7); }
+    50% { box-shadow: 0 0 0 8px rgba(244, 67, 54, 0); }
+}
+
+@keyframes abacTagSlideIn {
+    from { opacity: 0; transform: translateX(-8px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes unsavedPulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes mfaSlideUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes diffRowHighlight {
+    from { background: rgba(34, 211, 238, 0.1); }
+    to { background: transparent; }
+}
+
+.access-control {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 10px;
+    padding: 12px;
+}
+
+/* User Registry Section */
+.ac-user-registry {
+    grid-column: 1 / 5;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+    max-height: 500px;
+}
+
+.ac-registry-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t0);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--bd);
+}
+
+.ac-registry-search {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.ac-registry-search input {
+    flex: 1;
+    padding: 6px 8px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--t0);
+    outline: none;
+}
+
+.ac-registry-search input:focus {
+    border-color: var(--cy);
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.2);
+}
+
+.ac-user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    overflow-y: auto;
+    flex: 1;
+}
+
+.ac-user-item {
+    display: grid;
+    grid-template-columns: 32px 1fr 24px;
+    gap: 8px;
+    align-items: center;
+    padding: 8px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 200ms ease;
+}
+
+.ac-user-item:hover {
+    background: var(--s1);
+    border-color: var(--bd1);
+}
+
+.ac-user-item.high-risk {
+    border-left: 3px solid var(--rd);
+}
+
+.ac-user-item.medium-risk {
+    border-left: 3px solid var(--am);
+}
+
+.ac-user-item.low-risk {
+    border-left: 3px solid var(--em);
+}
+
+.ac-user-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cy1);
+    color: black;
+    font-weight: 700;
+    font-size: 12px;
+    flex-shrink: 0;
+}
+
+.ac-user-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ac-user-name {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--t0);
+}
+
+.ac-user-email {
+    font-size: 9px;
+    color: var(--t2);
+}
+
+.ac-user-risk-score {
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.ac-user-risk-score.high {
+    background: rgba(244, 67, 54, 0.2);
+    color: var(--rd);
+}
+
+.ac-user-risk-score.medium {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--am);
+}
+
+.ac-user-risk-score.low {
+    background: rgba(76, 175, 80, 0.2);
+    color: var(--em);
+}
+
+/* RBAC Heatmap */
+.ac-rbac-section {
+    grid-column: 5 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.ac-rbac-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--bd);
+}
+
+.ac-rbac-header h3 {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--t0);
+    margin: 0;
+}
+
+.ac-rbac-hint {
+    font-size: 11px;
+    color: var(--t2);
+}
+
+.ac-rbac-actions {
+    display: flex;
+    gap: 6px;
+}
+
+.ac-export-btn,
+.ac-diff-btn {
+    padding: 6px 10px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--t0);
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.ac-export-btn:hover,
+.ac-diff-btn:hover {
+    background: var(--s1);
+    border-color: var(--cy);
+    color: var(--cy);
+}
+
+.ac-unsaved-badge {
+    padding: 4px 8px;
+    background: rgba(245, 158, 11, 0.15);
+    border: 1px solid var(--am);
+    border-radius: 4px;
+    font-size: 10px;
+    color: var(--am);
+    font-weight: 600;
+    animation: unsavedPulse 2s infinite;
+}
+
+/* Diff View (S9.2) */
+.ac-diff-view {
+    padding: 10px;
+    background: rgba(34, 211, 238, 0.05);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-radius: 6px;
+    margin-bottom: 10px;
+}
+
+.ac-diff-view h4 {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    color: var(--cy);
+}
+
+.ac-diff-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ac-diff-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    padding: 6px;
+    background: var(--s2);
+    border-radius: 4px;
+    animation: diffRowHighlight 0.6s ease;
+}
+
+.ac-diff-key {
+    font-weight: 600;
+    color: var(--t0);
+    min-width: 100px;
+}
+
+.ac-diff-old {
+    font-family: monospace;
+    opacity: 0.7;
+}
+
+.ac-diff-arrow {
+    color: var(--t2);
+    font-size: 10px;
+}
+
+.ac-diff-new {
+    font-family: monospace;
+    font-weight: 600;
+}
+
+/* RBAC Matrix with Unsaved Indicator (S9.2) */
+.ac-rbac-matrix {
+    display: grid;
+    gap: 8px;
+    overflow-x: auto;
+}
+
+.ac-rbac-row {
+    display: grid;
+    grid-template-columns: 80px repeat(auto-fit, minmax(60px, 1fr));
+    gap: 8px;
+    font-size: 11px;
+}
+
+.ac-rbac-header-row {
+    font-weight: 700;
+    color: var(--t0);
+    margin-bottom: 4px;
+}
+
+.ac-rbac-cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid var(--bd);
+    min-height: 32px;
+}
+
+.ac-rbac-header-cell {
+    background: var(--s2);
+    font-weight: 600;
+    color: var(--t0);
+}
+
+.ac-rbac-resource-cell {
+    justify-content: flex-start;
+    background: var(--s3);
+    color: var(--t0);
+    font-weight: 600;
+}
+
+.ac-rbac-perm-cell {
+    cursor: pointer;
+    transition: all 200ms ease;
+    position: relative;
+}
+
+.ac-rbac-perm-cell:hover {
+    transform: scale(1.05);
+}
+
+.ac-rbac-perm-cell.changed {
+    border: 2px solid var(--am);
+    box-shadow: inset 0 0 8px rgba(245, 158, 11, 0.1);
+}
+
+.ac-perm-text {
+    font-weight: 600;
+    font-size: 10px;
+}
+
+/* JIT Access Panel */
+.ac-jit {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.ac-jit-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--bd);
+}
+
+.ac-jit-header h3 {
+    margin: 0;
+    font-size: 14px;
+    color: var(--t0);
+}
+
+.ac-jit-new-btn {
+    padding: 6px 12px;
+    background: var(--cy);
+    border: none;
+    border-radius: 4px;
+    color: black;
+    font-weight: 600;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.ac-jit-new-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
+}
+
+.ac-jit-requests {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px;
+}
+
+.ac-jit-card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 6px;
+    transition: all 200ms ease;
+    border-left: 3px solid var(--bd);
+}
+
+.ac-jit-card.pending {
+    border-left-color: var(--am);
+    background: rgba(245, 158, 11, 0.05);
+}
+
+.ac-jit-card.approved {
+    border-left-color: var(--em);
+    background: rgba(16, 185, 129, 0.05);
+}
+
+.ac-jit-card.active {
+    border-left-color: var(--cy);
+    background: rgba(34, 211, 238, 0.05);
+}
+
+.ac-jit-card.rejected {
+    border-left-color: var(--rd);
+    background: rgba(244, 67, 54, 0.05);
+}
+
+.ac-jit-card.expired {
+    border-left-color: var(--t3);
+    opacity: 0.6;
+}
+
+.ac-jit-card:hover {
+    border-color: var(--bd1);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.ac-jit-status {
+    font-size: 20px;
+    text-align: center;
+}
+
+.ac-jit-content {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ac-jit-content h4 {
+    margin: 0;
+    font-size: 12px;
+    color: var(--t0);
+}
+
+.ac-jit-role {
+    font-size: 10px;
+    color: var(--t1);
+    margin: 0;
+}
+
+.ac-jit-reason {
+    font-size: 10px;
+    color: var(--t2);
+    margin: 0;
+    padding: 6px;
+    background: var(--s3);
+    border-radius: 3px;
+    border-left: 2px solid var(--bd);
+}
+
+.ac-jit-duration {
+    font-size: 10px;
+    color: var(--t2);
+    margin: 0;
+}
+
+/* MFA Badge (S9.3) */
+.ac-jit-mfa-badge {
+    display: inline-block;
+    padding: 4px 8px;
+    background: rgba(16, 185, 129, 0.15);
+    border: 1px solid var(--em);
+    border-radius: 3px;
+    font-size: 9px;
+    color: var(--em);
+    font-weight: 600;
+}
+
+/* Auto-Revoke Timer (S9.3) */
+.ac-jit-auto-revoke {
+    padding: 6px;
+    background: rgba(245, 158, 11, 0.1);
+    border: 1px solid rgba(245, 158, 11, 0.3);
+    border-radius: 3px;
+    font-size: 10px;
+    color: var(--am);
+}
+
+/* Audit Chain Reference (S9.3) */
+.ac-jit-audit-chain {
+    padding: 6px;
+    background: rgba(34, 211, 238, 0.1);
+    border: 1px solid rgba(34, 211, 238, 0.3);
+    border-radius: 3px;
+    font-size: 9px;
+    color: var(--cy);
+}
+
+.ac-jit-audit-chain code {
+    background: var(--s2);
+    padding: 2px 4px;
+    border-radius: 2px;
+    font-family: monospace;
+    font-size: 8px;
+}
+
+.ac-jit-approvers {
+    display: flex;
+    gap: 6px;
+    font-size: 10px;
+    padding: 6px;
+    background: var(--s3);
+    border-radius: 3px;
+    flex-wrap: wrap;
+}
+
+.ac-jit-approvers .ac-label {
+    font-weight: 600;
+    color: var(--t0);
+}
+
+.ac-jit-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.ac-jit-approve,
+.ac-jit-deny {
+    padding: 6px;
+    border: none;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.ac-jit-approve {
+    background: var(--em);
+    color: white;
+}
+
+.ac-jit-approve:hover {
+    background: rgba(16, 185, 129, 0.8);
+    box-shadow: 0 0 8px rgba(16, 185, 129, 0.3);
+}
+
+.ac-jit-deny {
+    background: var(--rd);
+    color: white;
+}
+
+.ac-jit-deny:hover {
+    background: rgba(244, 67, 54, 0.8);
+    box-shadow: 0 0 8px rgba(244, 67, 54, 0.3);
+}
+
+/* Modal Styles (S9.3 MFA & S9.1 Recerto) */
+.ac-modal-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(4px);
+}
+
+.ac-modal {
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    max-width: 500px;
+    max-height: 80vh;
+    overflow-y: auto;
+    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.3);
+    animation: mfaSlideUp 300ms ease;
+}
+
+.ac-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px;
+    border-bottom: 1px solid var(--bd);
+}
+
+.ac-modal-header h2 {
+    margin: 0;
+    font-size: 16px;
+    color: var(--t0);
+}
+
+.ac-modal-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--t2);
+    cursor: pointer;
+    transition: color 150ms;
+}
+
+.ac-modal-close:hover {
+    color: var(--t0);
+}
+
+.ac-modal-progress {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--bd);
+    justify-content: center;
+}
+
+.ac-progress-step {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    font-weight: 700;
+    background: var(--s2);
+    color: var(--t1);
+    border: 1px solid var(--bd);
+    transition: all 200ms ease;
+}
+
+.ac-progress-step.current {
+    background: var(--cy);
+    color: black;
+    border-color: var(--cy);
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
+}
+
+.ac-progress-step.done {
+    background: var(--em);
+    color: white;
+    border-color: var(--em);
+}
+
+.ac-modal-content {
+    padding: 16px;
+    min-height: 200px;
+}
+
+.ac-step-section {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ac-step-section > label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--t0);
+}
+
+.ac-step-section > h3 {
+    margin: 0 0 8px 0;
+    font-size: 14px;
+    color: var(--t0);
+}
+
+.ac-user-options,
+.ac-role-options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    gap: 8px;
+}
+
+.ac-user-option,
+.ac-role-option {
+    padding: 8px 10px;
+    background: var(--s2);
+    border: 2px solid var(--bd);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--t0);
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.ac-user-option:hover,
+.ac-role-option:hover {
+    border-color: var(--cy);
+    background: rgba(34, 211, 238, 0.05);
+}
+
+.ac-reason-input {
+    width: 100%;
+    min-height: 80px;
+    padding: 8px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--t0);
+    font-family: 'Courier New', monospace;
+    resize: vertical;
+}
+
+.ac-reason-input:focus {
+    border-color: var(--cy);
+    outline: none;
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.2);
+}
+
+.ac-duration-selector {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.ac-duration-input {
+    padding: 6px 8px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--t0);
+    width: 80px;
+}
+
+.ac-duration-hint {
+    font-size: 9px;
+    color: var(--t2);
+}
+
+/* MFA Methods (S9.3) */
+.ac-mfa-methods {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.ac-mfa-method {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.ac-mfa-method:hover {
+    border-color: var(--cy);
+    background: rgba(34, 211, 238, 0.05);
+}
+
+.ac-mfa-method input {
+    cursor: pointer;
+}
+
+.ac-mfa-method label {
+    cursor: pointer;
+    font-size: 11px;
+    color: var(--t0);
+    font-weight: 500;
+    margin: 0;
+}
+
+.ac-mfa-input {
+    padding: 8px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    font-size: 14px;
+    letter-spacing: 4px;
+    text-align: center;
+    color: var(--t0);
+    font-weight: 600;
+}
+
+.ac-mfa-input:focus {
+    border-color: var(--cy);
+    outline: none;
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.2);
+}
+
+.ac-confirm-text {
+    font-size: 12px;
+    color: var(--t1);
+    margin: 0 0 12px 0;
+}
+
+.ac-confirm-details {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+}
+
+.ac-confirm-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--t0);
+}
+
+.ac-confirm-row span:first-child {
+    color: var(--t2);
+    font-weight: 600;
+}
+
+/* Approval Routing (S9.3) */
+.ac-approval-routing {
+    margin-top: 12px;
+}
+
+.ac-approval-routing h4 {
+    margin: 0 0 8px 0;
+    font-size: 11px;
+    color: var(--t0);
+    font-weight: 600;
+}
+
+.ac-approval-routing ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ac-approval-routing li {
+    font-size: 10px;
+    color: var(--t1);
+    padding: 4px 6px;
+    background: rgba(34, 211, 238, 0.1);
+    border-left: 2px solid var(--cy);
+    border-radius: 2px;
+}
+
+.ac-modal-actions {
+    display: flex;
+    gap: 8px;
+    padding: 12px 16px;
+    border-top: 1px solid var(--bd);
+    justify-content: flex-end;
+}
+
+.ac-btn {
+    padding: 8px 16px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--t0);
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.ac-btn:hover {
+    background: var(--s1);
+    border-color: var(--bd1);
+}
+
+.ac-btn.primary {
+    background: var(--cy);
+    color: black;
+    border-color: var(--cy);
+}
+
+.ac-btn.primary:hover {
+    background: rgba(34, 211, 238, 0.8);
+    box-shadow: 0 4px 12px rgba(34, 211, 238, 0.3);
+}
+
+/* Recertification Modal Styles (S9.1) */
+.ac-recert-btn {
+    animation: unset;
+}
+
+.ac-recert-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    margin-bottom: 10px;
+}
+
+.ac-recert-section h3 {
+    margin: 0 0 8px 0;
+    font-size: 12px;
+    color: var(--t0);
+}
+
+.ac-risk-breakdown {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ac-risk-item {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    padding: 6px;
+    background: var(--s3);
+    border-radius: 3px;
+}
+
+.ac-risk-item strong {
+    color: var(--t0);
+}
+
+.ac-risk-total {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    padding: 8px;
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid var(--rd);
+    border-radius: 3px;
+    font-weight: 600;
+}
+
+.ac-perm-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ac-perm-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    padding: 6px;
+    background: var(--s3);
+    border-radius: 3px;
+}
+
+.ac-badge {
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: 600;
+    color: white;
+}
+
+.ac-recert-options {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ac-recert-options label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--t0);
+    cursor: pointer;
+    padding: 6px;
+    background: var(--s3);
+    border-radius: 4px;
+    transition: all 150ms ease;
+}
+
+.ac-recert-options label:hover {
+    background: rgba(34, 211, 238, 0.1);
+    border-left: 2px solid var(--cy);
+}
+
+.ac-recert-options input {
+    cursor: pointer;
+}
+
+/* ABAC Tags (S9.1) */
+.ac-abac-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding: 6px 0;
+}
+
+.ac-abac-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 8px;
+    border: 1px solid;
+    border-radius: 12px;
+    font-size: 9px;
+    font-weight: 500;
+    animation: abacTagSlideIn 300ms ease;
+}
+
+.ac-abac-category {
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+/* User Row Refactored */
+.ac-users {
+    grid-column: 1 / -1;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.ac-user-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.ac-user-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto auto;
+    grid-auto-rows: auto;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 200ms ease;
+}
+
+.ac-user-row:hover {
+    background: var(--s1);
+    border-color: var(--bd1);
+}
+
+.ac-user-row.selected {
+    background: rgba(34, 211, 238, 0.1);
+    border-color: var(--cy);
+}
+
+.ac-user-name {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ac-user-name h4 {
+    margin: 0;
+    font-size: 12px;
+    color: var(--t0);
+}
+
+.ac-user-email {
+    margin: 0;
+    font-size: 10px;
+    color: var(--t2);
+}
+
+.ac-risk-meter {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.ac-risk-label {
+    font-size: 8px;
+    color: var(--t2);
+    font-weight: 600;
+}
+
+.ac-risk-dots {
+    display: flex;
+    gap: 2px;
+}
+
+.ac-risk-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    opacity: 0.3;
+    border: 1px solid currentColor;
+}
+
+.ac-risk-dot.filled {
+    opacity: 1;
+    background: currentColor;
+}
+
+.ac-risk-value {
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.ac-role-badge {
+    padding: 6px 10px;
+    background: var(--s3);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: white;
+    border: 1px solid;
+}
+
+.ac-user-last-active {
+    font-size: 10px;
+    color: var(--t2);
+}
+
+.ac-user-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    padding-top: 8px;
+    border-top: 1px solid var(--bd);
+}
+
+.ac-action-btn {
+    padding: 6px 10px;
+    background: var(--s3);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    color: var(--t0);
+    cursor: pointer;
+    transition: all 150ms ease;
+}
+
+.ac-action-btn:hover {
+    background: var(--cy);
+    color: black;
+    border-color: var(--cy);
+}
+
+.ac-recert-btn {
+    background: rgba(245, 158, 11, 0.15);
+    border-color: var(--am);
+    color: var(--am);
+}
+
+.ac-recert-btn:hover {
+    background: var(--am);
+    color: white;
+}
+
+/* RBAC Section Refactor */
+.ac-rbac {
+    grid-column: 1 / -1;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+/* JIT Section Refactor */
+.ac-jit {
+    grid-column: 1 / -1;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .access-control {
+        grid-template-columns: 1fr;
+    }
+
+    .ac-users,
+    .ac-rbac,
+    .ac-jit {
+        grid-column: 1 / -1;
+    }
+
+    .ac-user-row {
+        grid-template-columns: 1fr;
+    }
+
+    .ac-jit-requests {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .access-control {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .ac-users,
+    .ac-rbac,
+    .ac-jit {
+        padding: 8px;
+    }
+
+    .ac-user-row {
+        gap: 8px;
+        padding: 8px;
+    }
+
+    .ac-modal {
+        max-width: 90vw;
+        max-height: 90vh;
+    }
+
+    .ac-user-options,
+    .ac-role-options {
+        grid-template-columns: 1fr;
+    }
+}
+.ac-rbac-heatmap {
+    grid-column: 5 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.ac-heatmap-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t0);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--bd);
+}
+
+.ac-heatmap-container {
+    display: grid;
+    grid-template-columns: 80px repeat(auto-fit, minmax(60px, 1fr));
+    gap: 8px;
+    font-size: 11px;
+    overflow-x: auto;
+}
+
+.ac-heatmap-role-label {
+    font-weight: 600;
+    color: var(--t0);
+    padding: 6px;
+    text-align: right;
+}
+
+.ac-heatmap-resource-header {
+    font-weight: 600;
+    color: var(--t0);
+    padding: 6px;
+    text-align: center;
+    width: 60px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.ac-heatmap-cell {
+    width: 60px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 200ms ease;
+    font-size: 10px;
+    font-weight: 600;
+    border: 1px solid transparent;
+}
+
+.ac-heatmap-cell:hover {
+    border-color: var(--bd1);
+    transform: scale(1.05);
+}
+
+.ac-heatmap-cell.full {
+    background: rgba(76, 175, 80, 0.3);
+    color: var(--em);
+    border-color: var(--em);
+}
+
+.ac-heatmap-cell.partial {
+    background: rgba(255, 193, 7, 0.3);
+    color: var(--am);
+    border-color: var(--am);
+}
+
+.ac-heatmap-cell.denied {
+    background: rgba(244, 67, 54, 0.1);
+    color: var(--t3);
+    border-color: var(--bd);
+}
+
+/* JIT Access Request Panel */
+.ac-jit-panel {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 10px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.ac-jit-title {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t0);
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--bd);
+}
+
+.ac-jit-request {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 10px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 6px;
+    transition: all 200ms ease;
+}
+
+.ac-jit-request:hover {
+    background: var(--s1);
+    border-color: var(--bd1);
+}
+
+.ac-jit-request.urgent {
+    border-left: 3px solid var(--rd);
+    background: rgba(244, 67, 54, 0.05);
+}
+
+.ac-jit-request.normal {
+    border-left: 3px solid var(--cy);
+}
+
+.ac-jit-request.low {
+    border-left: 3px solid var(--em);
+}
+
+.ac-jit-requester {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--t0);
+}
+
+.ac-jit-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--cy1);
+    color: black;
+    font-size: 10px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.ac-jit-reason {
+    font-size: 10px;
+    color: var(--t2);
+    line-height: 1.3;
+    padding: 6px;
+    background: var(--s3);
+    border-radius: 4px;
+    border-left: 2px solid var(--bd);
+}
+
+.ac-jit-details {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+    font-size: 9px;
+    color: var(--t2);
+}
+
+.ac-jit-detail-item {
+    padding: 4px;
+    background: var(--s3);
+    border-radius: 3px;
+}
+
+.ac-jit-detail-label {
+    font-weight: 600;
+    color: var(--t1);
+}
+
+.ac-jit-detail-value {
+    color: var(--t0);
+    font-family: 'Monaco', 'Courier New', monospace;
+}
+
+.ac-jit-duration {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 10px;
+    color: var(--t1);
+    padding: 6px;
+    background: var(--s3);
+    border-radius: 4px;
+}
+
+.ac-jit-duration-input {
+    width: 50px;
+    padding: 4px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 3px;
+    color: var(--t0);
+    font-size: 10px;
+}
+
+.ac-jit-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 6px;
+}
+
+.ac-jit-btn {
+    padding: 6px;
+    border: none;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 200ms ease;
+}
+
+.ac-jit-btn.approve {
+    background: var(--em);
+    color: white;
+}
+
+.ac-jit-btn.approve:hover {
+    background: rgba(76, 175, 80, 0.8);
+    box-shadow: 0 0 8px rgba(76, 175, 80, 0.3);
+}
+
+.ac-jit-btn.deny {
+    background: var(--rd);
+    color: white;
+}
+
+.ac-jit-btn.deny:hover {
+    background: rgba(244, 67, 54, 0.8);
+    box-shadow: 0 0 8px rgba(244, 67, 54, 0.3);
+}
+
+/* Risk Score Indicators */
+.ac-risk-indicators {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 10px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.ac-risk-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 10px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 6px;
+    text-align: center;
+}
+
+.ac-risk-label {
+    font-size: 10px;
+    color: var(--t2);
+    font-weight: 600;
+}
+
+.ac-risk-value {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.ac-risk-value.high {
+    color: var(--rd);
+}
+
+.ac-risk-value.medium {
+    color: var(--am);
+}
+
+.ac-risk-value.low {
+    color: var(--em);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .access-control {
+        grid-template-columns: 1fr;
+    }
+
+    .ac-user-registry {
+        grid-column: 1 / -1;
+    }
+
+    .ac-rbac-heatmap {
+        grid-column: 1 / -1;
+    }
+
+    .ac-jit-panel {
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    }
+
+    .ac-heatmap-container {
+        grid-template-columns: 70px repeat(auto-fit, minmax(50px, 1fr));
+    }
+}
+
+@media (max-width: 768px) {
+    .access-control {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .ac-user-registry,
+    .ac-rbac-heatmap,
+    .ac-jit-panel,
+    .ac-risk-indicators {
+        padding: 8px;
+    }
+
+    .ac-user-item {
+        grid-template-columns: 28px 1fr 20px;
+    }
+
+    .ac-user-avatar {
+        width: 28px;
+        height: 28px;
+        font-size: 10px;
+    }
+
+    .ac-jit-panel {
+        grid-template-columns: 1fr;
+    }
+
+    .ac-jit-details {
+        grid-template-columns: 1fr;
+    }
+
+    .ac-heatmap-container {
+        grid-template-columns: 60px repeat(auto-fit, minmax(45px, 1fr));
+    }
+
+    .ac-heatmap-cell {
+        width: 45px;
+        height: 28px;
+        font-size: 9px;
+    }
+
+    .ac-risk-indicators {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

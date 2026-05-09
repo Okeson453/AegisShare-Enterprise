@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Nav – Upgraded</title>
+  <!-- Font Awesome 6 (free) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- Google Font: Inter -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    }
+
+    body {
+      background: #f1f5f9;
+      min-height: 100vh;
+    }
+
+    /* demo container – just to show nav in context */
+    .demo-placeholder {
+      padding: 2rem;
+      text-align: center;
+      color: #475569;
+    }
+
+    /* ----- UPGRADED NAVIGATION ----- */
+    .admin-nav {
+      background: #ffffff;
+      border-bottom: 1px solid #e2e8f0;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03), 0 1px 2px rgba(0, 0, 0, 0.05);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .nav-container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+
+    /* Logo / brand */
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 700;
+      font-size: 1.25rem;
+      color: #0f172a;
+      text-decoration: none;
+    }
+    .nav-brand i {
+      color: #4f46e5;
+      font-size: 1.5rem;
+    }
+    .nav-brand span {
+      background: linear-gradient(135deg, #1e293b, #334155);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    /* desktop navigation links + dropdown */
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      flex-wrap: wrap;
+    }
+
+    .nav-item {
+      position: relative;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.75rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #334155;
+      transition: all 0.2s ease;
+      cursor: pointer;
+      background: transparent;
+      border: none;
+    }
+
+    .nav-link i {
+      font-size: 1rem;
+      color: #64748b;
+      transition: color 0.2s;
+    }
+
+    .nav-link:hover {
+      background: #f1f5f9;
+      color: #0f172a;
+    }
+    .nav-link:hover i {
+      color: #4f46e5;
+    }
+
+    /* active page indicator (for Feature Flags) */
+    .nav-link.active {
+      background: #eef2ff;
+      color: #4f46e5;
+    }
+    .nav-link.active i {
+      color: #4f46e5;
+    }
+
+    /* dropdown menu */
+    .dropdown-menu {
+      position: absolute;
+      top: calc(100% + 0.5rem);
+      left: 0;
+      min-width: 220px;
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+      border: 1px solid #eef2ff;
+      padding: 0.5rem;
+      opacity: 0;
+      visibility: hidden;
+      transform: translateY(-8px);
+      transition: all 0.2s;
+      z-index: 100;
+    }
+
+    .nav-item:hover .dropdown-menu {
+      opacity: 1;
+      visibility: visible;
+      transform: translateY(0);
+    }
+
+    .dropdown-item {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      padding: 0.6rem 1rem;
+      border-radius: 0.6rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: #1e293b;
+      transition: background 0.15s;
+      text-decoration: none;
+    }
+    .dropdown-item i {
+      width: 1.25rem;
+      color: #64748b;
+    }
+    .dropdown-item:hover {
+      background: #f8fafc;
+      color: #4f46e5;
+    }
+    .dropdown-item:hover i {
+      color: #4f46e5;
+    }
+
+    /* breadcrumb (secondary) */
+    .nav-breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.85rem;
+      color: #64748b;
+      background: #f8fafc;
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+    }
+    .breadcrumb-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .breadcrumb-sep {
+      font-size: 0.7rem;
+      color: #cbd5e1;
+    }
+    .breadcrumb-link {
+      color: #475569;
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .breadcrumb-link:hover {
+      color: #4f46e5;
+    }
+    .breadcrumb-current {
+      font-weight: 600;
+      color: #0f172a;
+      background: #eef2ff;
+      padding: 0.2rem 0.6rem;
+      border-radius: 30px;
+    }
+
+    /* right side: admin avatar / actions */
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .avatar {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(145deg, #eef2ff, #e0e7ff);
+      border-radius: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      color: #4f46e5;
+      cursor: pointer;
+      transition: all 0.2s;
+      border: 1px solid #fff;
+    }
+    .avatar:hover {
+      background: #e0e7ff;
+      transform: scale(1.02);
+    }
+    .notification-badge {
+      position: relative;
+      cursor: pointer;
+    }
+    .notification-badge i {
+      font-size: 1.25rem;
+      color: #475569;
+    }
+    .badge-dot {
+      position: absolute;
+      top: -2px;
+      right: -5px;
+      width: 8px;
+      height: 8px;
+      background: #ef4444;
+      border-radius: 50%;
+      border: 2px solid white;
+    }
+
+    /* mobile menu button (hidden on desktop) */
+    .mobile-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      color: #334155;
+      cursor: pointer;
+    }
+
+    /* responsive */
+    @media (max-width: 860px) {
+      .nav-container {
+        flex-wrap: wrap;
+        padding: 0.75rem 1rem;
+      }
+      .mobile-toggle {
+        display: block;
+      }
+      .nav-links {
+        display: none;
+        width: 100%;
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 1rem 0 0.5rem;
+        gap: 0.5rem;
+      }
+      .nav-links.open {
+        display: flex;
+      }
+      .nav-item {
+        width: 100%;
+      }
+      .nav-link {
+        width: 100%;
+        justify-content: space-between;
+      }
+      .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        border: none;
+        padding-left: 1.5rem;
+        margin-top: 0.25rem;
+        width: 100%;
+        opacity: 1;
+        visibility: visible;
+        transform: none;
+        display: none;
+        background: #fafcff;
+      }
+      .nav-item.open-dropdown .dropdown-menu {
+        display: block;
+      }
+      .nav-breadcrumb {
+        order: 3;
+        width: 100%;
+        justify-content: center;
+        margin-top: 0.5rem;
+      }
+      .nav-actions {
+        margin-left: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- UPGRADED ADMIN NAVIGATION (ONLY NAV) -->
+<nav class="admin-nav">
+  <div class="nav-container">
+    <!-- Logo / brand -->
+    <a href="#" class="nav-brand">
+      <i class="fas fa-crown"></i>
+      <span>AdminConsole</span>
+    </a>
+
+    <!-- Mobile toggle button -->
+    <button class="mobile-toggle" id="mobileMenuBtn" aria-label="Menu">
+      <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Main navigation links + dropdowns -->
+    <div class="nav-links" id="navLinks">
+      <!-- Dashboard (simple link) -->
+      <div class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+      </div>
+
+      <!-- Admin dropdown (with nested items) -->
+      <div class="nav-item">
+        <button class="nav-link" id="adminDropdownBtn">
+          <i class="fas fa-user-shield"></i> Admin
+          <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item"><i class="fas fa-users"></i> Team members</a>
+          <a href="#" class="dropdown-item"><i class="fas fa-key"></i> Roles & permissions</a>
+          <a href="#" class="dropdown-item"><i class="fas fa-history"></i> Audit logs</a>
+        </div>
+      </div>
+
+      <!-- License Management (active parent? but Feature Flags is child) -->
+      <div class="nav-item">
+        <button class="nav-link" id="licenseDropdownBtn">
+          <i class="fas fa-file-contract"></i> License Management
+          <i class="fas fa-chevron-down" style="font-size: 0.7rem;"></i>
+        </button>
+        <div class="dropdown-menu">
+          <a href="#" class="dropdown-item"><i class="fas fa-chart-line"></i> Overview</a>
+          <a href="#" class="dropdown-item"><i class="fas fa-credit-card"></i> Billing</a>
+          <a href="#" class="dropdown-item active-drop"><i class="fas fa-flag-checkered"></i> Feature Flags</a>
+        </div>
+      </div>
+
+      <!-- Settings -->
+      <div class="nav-item">
+        <a href="#" class="nav-link">
+          <i class="fas fa-cog"></i> Settings
+        </a>
+      </div>
+    </div>
+
+    <!-- Breadcrumb (shows current location: Admin Console / Admin / License Management / Feature Flags) -->
+    <div class="nav-breadcrumb">
+      <div class="breadcrumb-item">
+        <i class="fas fa-terminal"></i>
+        <a href="#" class="breadcrumb-link">Admin Console</a>
+      </div>
+      <span class="breadcrumb-sep"><i class="fas fa-angle-right"></i></span>
+      <div class="breadcrumb-item">
+        <a href="#" class="breadcrumb-link">Admin</a>
+      </div>
+      <span class="breadcrumb-sep"><i class="fas fa-angle-right"></i></span>
+      <div class="breadcrumb-item">
+        <a href="#" class="breadcrumb-link">License Management</a>
+      </div>
+      <span class="breadcrumb-sep"><i class="fas fa-angle-right"></i></span>
+      <div class="breadcrumb-item">
+        <span class="breadcrumb-current">Feature Flags</span>
+      </div>
+    </div>
+
+    <!-- Right side actions -->
+    <div class="nav-actions">
+      <div class="notification-badge">
+        <i class="far fa-bell"></i>
+        <span class="badge-dot"></span>
+      </div>
+      <div class="avatar" title="Admin profile">
+        <i class="fas fa-user-cog"></i>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- demo content just to show nav in context -->
+<div class="demo-placeholder">
+  <h2>Feature Flags Management</h2>
+  <p>This is only the upgraded navigation component — ready to be integrated into your project.</p>
+  <p style="margin-top: 1rem; font-size: 0.85rem; background: #eef2ff; display: inline-block; padding: 0.3rem 1rem; border-radius: 20px;">✅ Active page: <strong>Feature Flags</strong> (highlighted in breadcrumb & dropdown)</p>
+</div>
+
+<script>
+  // Mobile menu toggle
+  const mobileBtn = document.getElementById('mobileMenuBtn');
+  const navLinks = document.getElementById('navLinks');
+  if (mobileBtn) {
+    mobileBtn.addEventListener('click', () => {
+      navLinks.classList.toggle('open');
+    });
+  }
+
+  // For responsive: handle dropdowns on mobile (click to expand nested menu)
+  const navItems = document.querySelectorAll('.nav-item');
+  navItems.forEach(item => {
+    const btn = item.querySelector('.nav-link');
+    if (!btn) return;
+    btn.addEventListener('click', (e) => {
+      // On mobile screens, if dropdown exists, toggle open-dropdown class
+      const hasDropdown = item.querySelector('.dropdown-menu');
+      if (window.innerWidth <= 860 && hasDropdown) {
+        e.preventDefault();
+        item.classList.toggle('open-dropdown');
+      }
+    });
+  });
+
+  // Highlight current page: Feature Flags (demo: set active class on dropdown item and breadcrumb)
+  // Also set active class on the parent "License Management" button? Not needed but style.
+  const featureFlagsDropdownItem = document.querySelector('.dropdown-item.active-drop');
+  if (featureFlagsDropdownItem) {
+    featureFlagsDropdownItem.style.background = '#eef2ff';
+    featureFlagsDropdownItem.style.color = '#4f46e5';
+  }
+  // For the breadcrumb we already have .breadcrumb-current
+  // Optionally set active class on nav link if needed:
+  const licenseNavBtn = document.getElementById('licenseDropdownBtn');
+  if (licenseNavBtn) {
+    // do not set active on button, but we can highlight the dropdown indicator
+  }
+  // close mobile menu on window resize if open
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 860) {
+      navLinks.classList.remove('open');
+      // remove open-dropdown from all items to avoid stuck states
+      document.querySelectorAll('.nav-item.open-dropdown').forEach(el => el.classList.remove('open-dropdown'));
+    }
+  });
+</script>
+</body>
+</html>

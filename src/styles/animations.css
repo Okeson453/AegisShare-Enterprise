@@ -1,0 +1,1067 @@
+/* =============================================================================
+   AegisShare Enterprise — Animation Keyframes Registry
+   All animations coordinated with motion.ts constants
+   Performance: 60fps target, max duration 800ms per frame motion spec
+   ============================================================================= */
+
+/* Fade In/Out — opacity only transitions */
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fade-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Slide transitions */
+@keyframes slide-in-right {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-left {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slideInFromLeft {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-up {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-in-down {
+    from {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Scale transitions */
+@keyframes scale-in {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes scale-out {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(0);
+        opacity: 0;
+    }
+}
+
+/* Rotate transitions */
+@keyframes rotate-in {
+    from {
+        transform: rotate(-45deg);
+        opacity: 0;
+    }
+
+    to {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes rotate {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes rotate-out {
+    from {
+        transform: rotate(0deg);
+        opacity: 1;
+    }
+
+    to {
+        transform: rotate(45deg);
+        opacity: 0;
+    }
+}
+
+/* Flip transitions (3D perspective) */
+@keyframes flip-x-in {
+    from {
+        transform: rotateY(-90deg);
+        opacity: 0;
+    }
+
+    to {
+        transform: rotateY(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes flip-x-out {
+    from {
+        transform: rotateY(0deg);
+        opacity: 1;
+    }
+
+    to {
+        transform: rotateY(90deg);
+        opacity: 0;
+    }
+}
+
+@keyframes flip-y-in {
+    from {
+        transform: rotateX(-90deg);
+        opacity: 0;
+    }
+
+    to {
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+}
+
+@keyframes flip-y-out {
+    from {
+        transform: rotateX(0deg);
+        opacity: 1;
+    }
+
+    to {
+        transform: rotateX(90deg);
+        opacity: 0;
+    }
+}
+
+/* Swing animation — playful entrance */
+@keyframes swing-in {
+    0% {
+        transform: rotateZ(-8deg);
+        opacity: 0;
+    }
+
+    100% {
+        transform: rotateZ(0deg);
+        opacity: 1;
+    }
+}
+
+/* Elastic animations */
+@keyframes elastic-in {
+    0% {
+        transform: scaleX(0);
+        opacity: 0;
+    }
+
+    55% {
+        transform: scaleX(1.1);
+        opacity: 1;
+    }
+
+    75% {
+        transform: scaleX(0.98);
+    }
+
+    100% {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+/* Blur + fade animation */
+@keyframes blur-fade-in {
+    from {
+        opacity: 0;
+        filter: blur(4px);
+    }
+
+    to {
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+@keyframes blur-fade-out {
+    from {
+        opacity: 1;
+        filter: blur(0px);
+    }
+
+    to {
+        opacity: 0;
+        filter: blur(4px);
+    }
+}
+
+/* Stagger animations */
+@keyframes staggerReveal {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Pulse animation */
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+@keyframes blink {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0;
+    }
+}
+
+/* =============================================================================
+   INTERACTIVE STATE ANIMATIONS
+   ============================================================================= */
+
+/* Tap/Click feedback */
+@keyframes tap-scale {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(0.97);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Hover lift effect */
+@keyframes hover-lift {
+    from {
+        transform: translateY(0px);
+    }
+
+    to {
+        transform: translateY(-2px);
+    }
+}
+
+/* Focus glow pulse */
+@keyframes focus-glow {
+    0% {
+        box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--cy);
+    }
+
+    50% {
+        box-shadow: 0 0 0 2px var(--bg), 0 0 0 6px rgba(34, 211, 238, 0.6);
+    }
+
+    100% {
+        box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--cy);
+    }
+}
+
+/* =============================================================================
+   LOADING & PROGRESS ANIMATIONS
+   ============================================================================= */
+
+/* Skeleton shimmer */
+@keyframes skeleton-shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Indeterminate progress bar */
+@keyframes progress-indeterminate {
+    0% {
+        transform: translateX(-100%);
+    }
+
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+/* Blur shimmer (variant of skeleton-shimmer) */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* Wave loading animation */
+@keyframes wave {
+
+    0%,
+    100% {
+        transform: translateY(0px);
+    }
+
+    25% {
+        transform: translateY(-4px);
+    }
+
+    50% {
+        transform: translateY(0px);
+    }
+
+    75% {
+        transform: translateY(-4px);
+    }
+}
+
+/* Spin animation */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* =============================================================================
+   NOTIFICATION & TOAST ANIMATIONS
+   ============================================================================= */
+
+/* Toast enter from bottom */
+@keyframes toast-enter {
+    from {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Toast exit to bottom */
+@keyframes toast-exit {
+    from {
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+}
+
+/* Toast enter from top-right (Slack style) */
+@keyframes toast-slide-in-right {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes toast-slide-out-right {
+    from {
+        transform: translateX(0);
+        opacity: 1;
+    }
+
+    to {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+}
+
+/* =============================================================================
+   MODAL & OVERLAY ANIMATIONS
+   ============================================================================= */
+
+/* Modal backdrop fade in/out */
+@keyframes backdrop-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes backdrop-out {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
+    }
+}
+
+/* Modal content scale + fade */
+@keyframes modal-in {
+    from {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes modal-out {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+
+    to {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+}
+
+/* Sheet slide from bottom */
+@keyframes sheet-in {
+    from {
+        transform: translateY(100%);
+    }
+
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes sheet-out {
+    from {
+        transform: translateY(0);
+    }
+
+    to {
+        transform: translateY(100%);
+    }
+}
+
+/* =============================================================================
+   MENU & DROPDOWN ANIMATIONS
+   ============================================================================= */
+
+/* Dropdown enter with scale */
+@keyframes dropdown-in {
+    from {
+        transform: scaleY(0.95) scaleX(0.98);
+        opacity: 0;
+        transform-origin: top left;
+    }
+
+    to {
+        transform: scaleY(1) scaleX(1);
+        opacity: 1;
+        transform-origin: top left;
+    }
+}
+
+@keyframes dropdown-out {
+    from {
+        transform: scaleY(1) scaleX(1);
+        opacity: 1;
+        transform-origin: top left;
+    }
+
+    to {
+        transform: scaleY(0.95) scaleX(0.98);
+        opacity: 0;
+        transform-origin: top left;
+    }
+}
+
+/* =============================================================================
+   LIST & STAGGER ANIMATIONS
+   ============================================================================= */
+
+/* Individual list item enter */
+@keyframes list-item-enter {
+    from {
+        transform: translateY(8px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Staggered list container (parent animation signal) */
+@keyframes stagger-container {
+    0% {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* =============================================================================
+   DRAG & DROP ANIMATIONS
+   ============================================================================= */
+
+/* Dragging lift effect */
+@keyframes drag-lift {
+    from {
+        transform: translateY(0px);
+        box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    }
+
+    to {
+        transform: translateY(-4px);
+        box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+    }
+}
+
+/* Drop placeholder expansion */
+@keyframes drop-zone-expand {
+    from {
+        transform: scaleY(0.5);
+        opacity: 0.3;
+    }
+
+    to {
+        transform: scaleY(1);
+        opacity: 0.5;
+    }
+}
+
+/* =============================================================================
+   EXPAND / COLLAPSE ANIMATIONS
+   ============================================================================= */
+
+@keyframes expand {
+    from {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
+
+    to {
+        max-height: 100vh;
+        opacity: 1;
+        overflow: hidden;
+    }
+}
+
+@keyframes collapse {
+    from {
+        max-height: 100vh;
+        opacity: 1;
+        overflow: hidden;
+    }
+
+    to {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
+}
+
+/* =============================================================================
+   GLOW & HIGHLIGHT ANIMATIONS
+   ============================================================================= */
+
+/* Pulsing glow effect */
+@keyframes glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 12px currentColor;
+    }
+
+    50% {
+        box-shadow: 0 0 24px currentColor;
+    }
+}
+
+/* Text glow for alerts/critical states */
+@keyframes text-glow {
+
+    0%,
+    100% {
+        text-shadow: 0 0 8px currentColor;
+    }
+
+    50% {
+        text-shadow: 0 0 16px currentColor;
+    }
+}
+
+/* =============================================================================
+   NUMBER COUNTER ANIMATIONS
+   ============================================================================= */
+
+/* Numeric counter increment (use with @supports counter-increment) */
+@keyframes countUp {
+    from {
+        counter-increment: counter 0;
+    }
+
+    to {
+        counter-increment: counter var(--target);
+    }
+}
+
+/* Slide up entrance for counters */
+@keyframes count-slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* =============================================================================
+   DATA VISUALIZATION ANIMATIONS
+   ============================================================================= */
+
+/* Bar chart growth */
+@keyframes bar-growth {
+    from {
+        width: 0;
+    }
+
+    to {
+        width: 100%;
+    }
+}
+
+/* Arc gauge stroke animation */
+@keyframes arc-fill {
+    from {
+        stroke-dashoffset: 565;
+    }
+
+    to {
+        stroke-dashoffset: calc(565 * (1 - var(--progress, 0.5)));
+    }
+}
+
+/* =============================================================================
+   ENTERPRISE UI ANIMATIONS
+   ============================================================================= */
+
+/* Count-up number animation */
+@keyframes count-up {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Sparkline chart animat ion */
+@keyframes sparkline-draw {
+    from {
+        stroke-dashoffset: 1000;
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Glowing border animation */
+@keyframes border-glow {
+
+    0%,
+    100% {
+        box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
+    }
+
+    50% {
+        box-shadow: 0 0 24px rgba(34, 211, 238, 0.6);
+    }
+}
+
+/* Pulse with scale for critical alerts */
+@keyframes critical-pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.8;
+        transform: scale(1.02);
+    }
+}
+
+/* Slidedown opening animation */
+@keyframes slide-down-open {
+    from {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Ink bar animation for navigation */
+@keyframes ink-bar {
+    0% {
+        transform: translateX(0);
+    }
+
+    100% {
+        transform: translateX(var(--ink-offset, 0));
+    }
+}
+
+/* Floating animation for hovering elements */
+@keyframes float-up {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+/* Shimmer text effect for loading */
+@keyframes text-shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+/* Expand width animation */
+@keyframes expand-width {
+    from {
+        max-width: 0;
+        opacity: 0;
+    }
+
+    to {
+        max-width: 100%;
+        opacity: 1;
+    }
+}
+
+/* Collapse height animation */
+@keyframes collapse-height {
+    from {
+        max-height: 500px;
+        opacity: 1;
+    }
+
+    to {
+        max-height: 0;
+        opacity: 0;
+    }
+}
+
+opacity: 0;
+}
+
+to {
+    width: 100%;
+    opacity: 1;
+}
+}
+
+/* Gauge fill animation */
+@keyframes gauge-fill {
+    from {
+        stroke-dashoffset: var(--radius);
+    }
+
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Accordion/Disclosure expand */
+@keyframes expand {
+    from {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
+
+    to {
+        max-height: var(--content-height, 500px);
+        opacity: 1;
+        overflow: visible;
+    }
+}
+
+@keyframes collapse {
+    from {
+        max-height: var(--content-height, 500px);
+        opacity: 1;
+        overflow: visible;
+    }
+
+    to {
+        max-height: 0;
+        opacity: 0;
+        overflow: hidden;
+    }
+}
+
+/* =============================================================================
+   ATTENTION-GRABBING ANIMATIONS
+   ============================================================================= */
+
+/* Attention shake — used for error states */
+@keyframes shake {
+
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+        transform: translateX(-2px);
+    }
+
+    20%,
+    40%,
+    60%,
+    80% {
+        transform: translateX(2px);
+    }
+}
+
+/* Attention bounce */
+@keyframes attention-bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-4px);
+    }
+}
+
+/* Attention heartbeat */
+@keyframes heartbeat {
+
+    0%,
+    100% {
+        transform: scale(1);
+    }
+
+    14% {
+        transform: scale(1.15);
+    }
+
+    28% {
+        transform: scale(1);
+    }
+}
+
+/* Ping animation */
+@keyframes ping {
+
+    75%,
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Bounce animation */
+@keyframes bounce {
+
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+
+    50% {
+        transform: translateY(-0.5rem);
+    }
+}
+
+/* =============================================================================
+   UTILITY ANIMATIONS (responsive, accessibility-aware)
+   ============================================================================= */
+
+/* Hide animation that preserves flow (for collapse) */
+@keyframes hide-content {
+    to {
+        visibility: hidden;
+    }
+}
+
+/* Fade in for image loading */
+@keyframes image-fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Respect reduced motion preference globally */
+@media (prefers-reduced-motion: reduce) {
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

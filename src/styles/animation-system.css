@@ -1,0 +1,346 @@
+/* =============================================================================
+   AegisShare Enterprise — Advanced Animation System
+   
+   Complete motion design system with entrance, transition, and state change
+   animations. All timing and easing defined via CSS variables for consistency.
+   ============================================================================= */
+
+/* =============================================================================
+   ENTRANCE ANIMATIONS — for initial component mount
+   ============================================================================= */
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes scale-pop-in {
+    from {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-down {
+    from {
+        opacity: 0;
+        transform: translateY(-16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slide-left {
+    from {
+        opacity: 0;
+        transform: translateX(-16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slide-right {
+    from {
+        opacity: 0;
+        transform: translateX(16px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Drawer/modal reveal from right edge */
+@keyframes drawer-slide-in {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Drawer collapse to right edge */
+@keyframes drawer-slide-out {
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100%);
+    }
+}
+
+/* =============================================================================
+   DATA VISUALIZATION ANIMATIONS
+   ============================================================================= */
+
+/* Count-up animation for numeric KPIs */
+@keyframes count-pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+/* Sparkline area fill transition */
+@keyframes sparkline-fill {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Animated dash offset for arc gauges and progress indicators */
+@keyframes dash-offset {
+    from {
+        stroke-dashoffset: var(--dash-offset-from);
+    }
+
+    to {
+        stroke-dashoffset: var(--dash-offset-to);
+    }
+}
+
+/* Animated chevron movement on connector lines (Merkle chain, swimlanes) */
+@keyframes chevron-flow {
+    0% {
+        offset-distance: 0%;
+    }
+
+    100% {
+        offset-distance: 100%;
+    }
+}
+
+/* Shimmer effect for data loading states */
+@keyframes shimmer {
+    0% {
+        background-position: -1000px 0;
+    }
+
+    100% {
+        background-position: 1000px 0;
+    }
+}
+
+/* =============================================================================
+   STATE CHANGE ANIMATIONS
+   ============================================================================= */
+
+/* Pulse animation moved to animations.css — do not duplicate here */
+
+/* Pulse with scale moved to animations.css — do not duplicate here */
+
+/* Glow effect (box-shadow pulse) */
+@keyframes glow {
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba(34, 211, 238, 0.7);
+    }
+
+    50% {
+        box-shadow: 0 0 0 8px rgba(34, 211, 238, 0);
+    }
+}
+
+/* Success checkmark fill */
+@keyframes check-reveal {
+    from {
+        stroke-dasharray: 100;
+        stroke-dashoffset: 100;
+    }
+
+    to {
+        stroke-dasharray: 100;
+        stroke-dashoffset: 0;
+    }
+}
+
+/* Error shake animation */
+@keyframes shake {
+    0%, 100% {
+        transform: translateX(0);
+    }
+
+    25% {
+        transform: translateX(-4px);
+    }
+
+    75% {
+        transform: translateX(4px);
+    }
+}
+
+/* =============================================================================
+   UTILITY CLASSES — apply animations to components
+   ============================================================================= */
+
+.animate-fade-in {
+    animation: fade-in var(--dur-fast) var(--ease-smooth);
+}
+
+.animate-scale-pop {
+    animation: scale-pop-in var(--dur-mid) var(--ease-spring);
+}
+
+.animate-slide-up {
+    animation: slide-up var(--dur-mid) var(--ease-smooth);
+}
+
+.animate-slide-down {
+    animation: slide-down var(--dur-mid) var(--ease-smooth);
+}
+
+.animate-slide-left {
+    animation: slide-left var(--dur-mid) var(--ease-smooth);
+}
+
+.animate-slide-right {
+    animation: slide-right var(--dur-mid) var(--ease-smooth);
+}
+
+.animate-drawer-in {
+    animation: drawer-slide-in var(--dur-mid) var(--ease-smooth);
+}
+
+.animate-drawer-out {
+    animation: drawer-slide-out var(--dur-mid) var(--ease-smooth);
+}
+
+.animate-pulse {
+    animation: pulse var(--dur-slow) ease-in-out infinite;
+}
+
+.animate-pulse-scale {
+    animation: pulse-scale var(--dur-slow) ease-in-out infinite;
+}
+
+.animate-glow {
+    animation: glow 2s var(--ease-smooth) infinite;
+}
+
+.animate-shake {
+    animation: shake 0.5s var(--ease-sharp);
+}
+
+/* =============================================================================
+   STAGGERED ENTRANCE ANIMATIONS
+   
+   For lists and grids: apply .stagger-container to parent,
+   then apply .stagger-item to each child element.
+   Each item animates with incrementing delay.
+   ============================================================================= */
+
+.stagger-container {
+    --stagger-delay: var(--dur-instant);
+    --stagger-index: 0;
+}
+
+.stagger-item {
+    animation: slide-up var(--dur-mid) var(--ease-smooth);
+    animation-delay: calc(var(--stagger-index) * var(--stagger-delay));
+}
+
+/* Generate stagger indices (up to 10 items) */
+.stagger-item:nth-child(1) { --stagger-index: 0; }
+.stagger-item:nth-child(2) { --stagger-index: 1; }
+.stagger-item:nth-child(3) { --stagger-index: 2; }
+.stagger-item:nth-child(4) { --stagger-index: 3; }
+.stagger-item:nth-child(5) { --stagger-index: 4; }
+.stagger-item:nth-child(6) { --stagger-index: 5; }
+.stagger-item:nth-child(7) { --stagger-index: 6; }
+.stagger-item:nth-child(8) { --stagger-index: 7; }
+.stagger-item:nth-child(9) { --stagger-index: 8; }
+.stagger-item:nth-child(10) { --stagger-index: 9; }
+
+/* =============================================================================
+   TRANSITION UTILITIES — for smooth state changes
+   ============================================================================= */
+
+.transition-fast {
+    transition: all var(--dur-fast) var(--ease-sharp);
+}
+
+.transition-mid {
+    transition: all var(--dur-mid) var(--ease-smooth);
+}
+
+.transition-slow {
+    transition: all var(--dur-slow) var(--ease-smooth);
+}
+
+/* Specific property transitions */
+.transition-colors {
+    transition: background-color var(--dur-fast) var(--ease-sharp),
+        border-color var(--dur-fast) var(--ease-sharp),
+        color var(--dur-fast) var(--ease-sharp);
+}
+
+.transition-transform {
+    transition: transform var(--dur-mid) var(--ease-smooth);
+}
+
+.transition-opacity {
+    transition: opacity var(--dur-mid) var(--ease-smooth);
+}
+
+.transition-shadow {
+    transition: box-shadow var(--dur-fast) var(--ease-sharp);
+}
+
+/* =============================================================================
+   REDUCED MOTION SUPPORT
+   
+   Respects user preference for reduced motion across all animations.
+   ============================================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}

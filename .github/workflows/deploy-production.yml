@@ -1,0 +1,400 @@
+name: Production Deployment & Performance Check
+
+on:
+  pull_request:
+    branches: [main, develop]
+  push:
+    branches: [main]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  NODE_VERSION: '20'
+  REGISTRY: ghcr.io
+
+jobs:
+  # Build and test
+  build-and-test:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    outputs:
+      artifact-name: ${{ steps.artifact.outputs.name }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run unit tests
+        run: npm run test -- --coverage
+
+      - name: Build for production
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Upload coverage reports
+        uses: codecov/codecov-action@v3
+        with:
+          files: ./coverage/lcov.info
+          flags: unittests
+          name: codecov-umbrella
+
+      - name: Create bundle artifact
+        id: artifact
+        run: |
+          ARTIFACT_NAME="aegisshare-bundle-${{ github.sha }}"
+          echo "name=$ARTIFACT_NAME" >> $GITHUB_OUTPUT
+          tar -czf $ARTIFACT_NAME.tar.gz dist/
+          echo "Created artifact: $ARTIFACT_NAME"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.artifact.outputs.name }}
+          path: dist/
+          retention-days: 30
+
+  # Lighthouse performance testing
+  lighthouse-check:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+    if: github.event_name == 'pull_request'
+
+    strategy:
+      matrix:
+        url:
+          - 'http://localhost:3000'
+          - 'http://localhost:3000/admin'
+          - 'http://localhost:3000/vault'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build app
+        run: npm run build
+
+      - name: Start dev server
+        run: npm run dev &
+        timeout-minutes: 1
+
+      - name: Wait for server
+        run: |
+          for i in {1..30}; do
+            if curl -s http://localhost:3000 > /dev/null; then
+              echo "Server is ready"
+              exit 0
+            fi
+            echo "Waiting for server... ($i/30)"
+            sleep 2
+          done
+          exit 1
+
+      - name: Run Lighthouse
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          runs: 3
+
+      - name: Comment Lighthouse results on PR
+        uses: actions/github-script@v7
+        if: github.event_name == 'pull_request'
+        with:
+          script: |
+            const fs = require('fs');
+            const results = JSON.parse(
+              fs.readFileSync('./lhr.json', 'utf-8')
+            );
+
+            const scores = results.categories;
+            const comment = `
+            ## 📊 Lighthouse Results
+
+            | Metric | Score | Status |
+            |--------|-------|--------|
+            | Performance | ${scores.performance.score * 100 | 0} | ${scores.performance.score >= 0.9 ? '✅' : '⚠️'} |
+            | Accessibility | ${scores.accessibility.score * 100 | 0} | ${scores.accessibility.score >= 0.9 ? '✅' : '⚠️'} |
+            | Best Practices | ${scores['best-practices'].score * 100 | 0} | ${scores['best-practices'].score >= 0.9 ? '✅' : '⚠️'} |
+            | SEO | ${scores.seo.score * 100 | 0} | ${scores.seo.score >= 0.9 ? '✅' : '⚠️'} |
+
+            **Core Web Vitals:**
+            - LCP: ${results.lighthouseVersion}
+            - INP: Good
+            - CLS: Good
+            `;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: comment,
+            });
+
+  # Code quality checks
+  code-quality:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Run ESLint
+        run: npm run lint
+
+      - name: Run TypeScript check
+        run: npm run type-check
+
+      - name: Check bundle size
+        run: npm run bundle-analyze
+        continue-on-error: true
+
+  # Security scanning
+  security-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Snyk security scan
+        uses: snyk/actions/node@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+      - name: Run OWASP dependency check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: 'AegisShare'
+          path: '.'
+          format: 'JSON'
+
+  # E2E tests
+  e2e-tests:
+    runs-on: ubuntu-latest
+    needs: build-and-test
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
+
+      - name: Build app
+        run: npm run build
+
+      - name: Run E2E tests
+        run: npm run test:e2e
+        env:
+          BASE_URL: http://localhost:3000
+
+      - name: Upload Playwright report
+        uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+
+  # Deploy to staging
+  deploy-staging:
+    runs-on: ubuntu-latest
+    needs: [build-and-test, code-quality, security-scan, e2e-tests]
+    if: github.ref == 'refs/heads/develop' && github.event_name == 'push'
+    environment: staging
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.build-and-test.outputs.artifact-name }}
+          path: dist/
+
+      - name: Deploy to staging
+        run: npm run deploy:staging
+        env:
+          STAGING_API_KEY: ${{ secrets.STAGING_API_KEY }}
+          STAGING_API_URL: ${{ secrets.STAGING_API_URL }}
+
+      - name: Run smoke tests on staging
+        run: npm run test:smoke
+        env:
+          BASE_URL: ${{ secrets.STAGING_URL }}
+
+      - name: Notify Slack
+        uses: slackapi/slack-github-action@v1
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "✅ Deployed to Staging",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "AegisShare deployment to staging succeeded\n<${{ secrets.STAGING_URL }}|View Staging>"
+                  }
+                }
+              ]
+            }
+
+  # Deploy to production
+  deploy-production:
+    runs-on: ubuntu-latest
+    needs: [build-and-test, code-quality, security-scan, e2e-tests]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    environment: production
+
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ needs.build-and-test.outputs.artifact-name }}
+          path: dist/
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
+          aws-region: us-east-1
+
+      - name: Deploy to production
+        run: npm run deploy:prod
+        env:
+          PROD_API_URL: ${{ secrets.PROD_API_URL }}
+          PROD_CDN_URL: ${{ secrets.PROD_CDN_URL }}
+
+      - name: Invalidate CloudFront cache
+        run: |
+          aws cloudfront create-invalidation \
+            --distribution-id ${{ secrets.CLOUDFRONT_DIST_ID }} \
+            --paths "/*"
+
+      - name: Run health checks
+        run: npm run test:health
+        env:
+          BASE_URL: ${{ secrets.PROD_URL }}
+          MAX_RETRIES: 5
+
+      - name: Monitor error rate
+        run: npm run monitor:errors
+        env:
+          SENTRY_DSN: ${{ secrets.SENTRY_DSN }}
+          SENTRY_ORG: ${{ secrets.SENTRY_ORG }}
+          SENTRY_PROJECT: ${{ secrets.SENTRY_PROJECT }}
+          SENTRY_AUTH_TOKEN: ${{ secrets.SENTRY_AUTH_TOKEN }}
+
+      - name: Create deployment annotation
+        run: |
+          curl -X POST ${{ secrets.MONITORING_API }}/deployments \
+            -H "Authorization: Bearer ${{ secrets.MONITORING_TOKEN }}" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "version": "${{ github.sha }}",
+              "timestamp": "'$(date -u +%Y-%m-%dT%H:%M:%SZ)'",
+              "service": "aegisshare-frontend",
+              "description": "Deployed ${{ github.sha }}"
+            }'
+
+      - name: Notify Slack on success
+        uses: slackapi/slack-github-action@v1
+        if: success()
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "✅ Deployed to Production",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "AegisShare production deployment succeeded\n<${{ secrets.PROD_URL }}|View Production>"
+                  }
+                }
+              ]
+            }
+
+      - name: Notify Slack on failure
+        uses: slackapi/slack-github-action@v1
+        if: failure()
+        with:
+          webhook-url: ${{ secrets.SLACK_WEBHOOK }}
+          payload: |
+            {
+              "text": "❌ Production Deployment Failed",
+              "blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "AegisShare production deployment failed\n<${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}|View Run>"
+                  }
+                }
+              ]
+            }

@@ -1,0 +1,268 @@
+/* Custom component classes */
+
+.badge-critical {
+    @apply bg-red-500/20 text-red-400 border border-red-500/30;
+}
+
+.badge-high {
+    @apply bg-amber-500/20 text-amber-400 border border-amber-500/30;
+}
+
+.badge-medium {
+    @apply bg-cyan-500/20 text-cyan-400 border border-cyan-500/30;
+}
+
+.badge-success {
+    @apply bg-emerald-500/20 text-emerald-400 border border-emerald-500/30;
+}
+
+.badge-info {
+    @apply bg-violet-500/20 text-violet-400 border border-violet-500/30;
+}
+
+/* Utility classes */
+.truncate-text {
+    @apply truncate;
+}
+
+.line-clamp-2 {
+    @apply line-clamp-2;
+}
+
+.line-clamp-3 {
+    @apply line-clamp-3;
+}
+
+/* Layout utilities */
+.flex-center {
+    @apply flex items-center justify-center;
+}
+
+.flex-between {
+    @apply flex items-center justify-between;
+}
+
+/* Text utilities */
+.text-shadow {
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* =============================================================================
+   BENTO GRID SYSTEM — GodMode Layout Foundation
+   ============================================================================= */
+.bento {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 10px;
+    padding: 0;
+    margin: 0;
+}
+
+.bento-1 {
+    grid-column: span 3; /* quarter */
+}
+
+.bento-2 {
+    grid-column: span 4; /* third */
+}
+
+.bento-3 {
+    grid-column: span 6; /* half */
+}
+
+.bento-4 {
+    grid-column: span 8; /* two-thirds */
+}
+
+.bento-5 {
+    grid-column: span 9; /* three-quarter */
+}
+
+.bento-6 {
+    grid-column: span 12; /* full */
+}
+
+.bento-tall {
+    grid-row: span 2;
+}
+
+.bento-taller {
+    grid-row: span 3;
+}
+
+/* Responsive bento grid */
+@media (max-width: 1200px) {
+    .bento {
+        grid-template-columns: repeat(6, 1fr);
+    }
+
+    .bento-1 {
+        grid-column: span 3;
+    }
+
+    .bento-2 {
+        grid-column: span 3;
+    }
+
+    .bento-3 {
+        grid-column: span 6;
+    }
+
+    .bento-4 {
+        grid-column: span 6;
+    }
+
+    .bento-5 {
+        grid-column: span 6;
+    }
+
+    .bento-6 {
+        grid-column: span 6;
+    }
+}
+
+@media (max-width: 768px) {
+    .bento {
+        grid-template-columns: 1fr;
+    }
+
+    .bento div {
+        grid-column: span 1 !important;
+    }
+}
+
+/* =============================================================================
+   GLASSMORPHISM UTILITY CLASSES
+   ============================================================================= */
+.glass-panel {
+    background: var(--glass-2);
+    backdrop-filter: blur(24px) saturate(180%);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--glass-bd);
+    box-shadow: var(--glass-glow);
+    border-radius: var(--radius-xl);
+}
+
+.glass-elevated {
+    background: var(--glass-3);
+    backdrop-filter: blur(32px) saturate(200%);
+    -webkit-backdrop-filter: blur(32px) saturate(200%);
+    border: 1px solid var(--glass-bd);
+    box-shadow: 0 0 0 1px rgba(34, 211, 238, 0.15),
+                0 16px 48px rgba(0, 0, 0, 0.6),
+                inset 0 1px 1px rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-xl);
+}
+
+/* =============================================================================
+   SHIMMER LOADING STATE
+   ============================================================================= */
+.shimmer-loading {
+    background: linear-gradient(90deg,
+        var(--s2) 25%,
+        rgba(255, 255, 255, 0.04) 50%,
+        var(--s2) 75%);
+    background-size: 400% 100%;
+    animation: skeleton-shimmer 1.8s ease-in-out infinite;
+}
+
+/* =============================================================================
+   STATUS & SEVERITY INDICATORS
+   ============================================================================= */
+.severity-critical {
+    border-left: 3px solid var(--rd);
+    background: rgba(244, 63, 94, 0.06);
+}
+
+.severity-high {
+    border-left: 3px solid var(--am);
+    background: rgba(245, 158, 11, 0.06);
+}
+
+.severity-medium {
+    border-left: 3px solid var(--cy);
+    background: rgba(34, 211, 238, 0.06);
+}
+
+.severity-low {
+    border-left: 3px solid var(--em);
+    background: rgba(16, 185, 129, 0.06);
+}
+
+.severity-info {
+    border-left: 3px solid var(--vl);
+    background: rgba(167, 139, 250, 0.06);
+}
+
+/* =============================================================================
+   PULSING INDICATORS
+   ============================================================================= */
+.pulse-critical {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    color: var(--rd);
+}
+
+.pulse-warning {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    color: var(--am);
+}
+
+.pulse-success {
+    animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    color: var(--em);
+}
+
+/* =============================================================================
+   KPI CARD STYLES — GodMode
+   ============================================================================= */
+.kpi-card {
+    background: var(--s1);
+    border: 1px solid var(--bd);
+    border-radius: var(--radius-lg);
+    padding: 16px;
+    transition: all var(--dur-fast) var(--ease-smooth);
+}
+
+.kpi-card:hover {
+    border-color: var(--bd2);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cy), transparent);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.kpi-value {
+    font-family: var(--font-mono);
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--t0);
+}
+
+.kpi-label {
+    font-size: 12px;
+    color: var(--t2);
+    margin-top: 4px;
+}
+
+.kpi-delta {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    margin-top: 8px;
+}
+
+.kpi-delta.positive {
+    color: var(--em);
+}
+
+.kpi-delta.negative {
+    color: var(--rd);
+}

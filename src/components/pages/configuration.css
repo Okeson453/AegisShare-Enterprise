@@ -1,0 +1,963 @@
+/* S10 Configuration — Compliance profiles, 3-column diff pane, floating unsaved banner */
+
+@keyframes slideUpSpring {
+    0% {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideDown {
+    0% {
+        opacity: 0;
+        transform: translateY(-8px);
+    }
+
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes floatPulse {
+
+    0%,
+    100% {
+        transform: translateY(0) scale(1);
+    }
+
+    50% {
+        transform: translateY(-2px) scale(1.01);
+    }
+}
+
+@keyframes shimmerLeft {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.configuration {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    padding: 20px;
+    position: relative;
+}
+
+/* S10.3 — Floating Unsaved Changes Banner */
+.cfg-unsaved-banner {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    max-width: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 14px 18px;
+    background: linear-gradient(135deg, rgba(244, 67, 54, 0.95), rgba(244, 67, 54, 0.85));
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(244, 67, 54, 0.4);
+    border-radius: 8px;
+    box-shadow: 0 20px 48px rgba(244, 67, 54, 0.3), 0 0 1px rgba(255, 255, 255, 0.1) inset;
+    animation: slideUpSpring 350ms cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 500;
+}
+
+.cfg-unsaved-floating {
+    position: fixed !important;
+    bottom: 20px;
+    right: 20px;
+}
+
+.cfg-banner-content {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    flex: 1;
+}
+
+.cfg-banner-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+    animation: floatPulse 2.5s ease-in-out infinite;
+}
+
+.cfg-banner-text {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.cfg-banner-title {
+    font-size: 12px;
+    color: white;
+    font-weight: 700;
+}
+
+.cfg-banner-timer {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
+
+.cfg-banner-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.cfg-banner-btn {
+    padding: 7px 14px;
+    border-radius: 5px;
+    font-size: 11px;
+    font-weight: 700;
+    border: none;
+    cursor: pointer;
+    transition: all 150ms ease;
+    white-space: nowrap;
+}
+
+.cfg-banner-save-btn {
+    background: white;
+    color: var(--rd);
+}
+
+.cfg-banner-save-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.cfg-banner-discard-btn {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.cfg-banner-discard-btn:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+/* S10.1 — Compliance Section */
+.cfg-compliance-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cfg-section-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cfg-section-header h2 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--t0);
+    letter-spacing: -0.3px;
+}
+
+.cfg-section-desc {
+    margin: 0;
+    font-size: 12px;
+    color: var(--t2);
+    font-weight: 500;
+}
+
+/* S10.1 — Compliance Profile Cards Grid */
+.cfg-profile-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+}
+
+.cfg-profile-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 16px;
+    background: var(--glass-2);
+    border: 2px solid var(--bd);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 200ms ease;
+    backdrop-filter: blur(12px);
+    position: relative;
+    overflow: hidden;
+}
+
+.cfg-profile-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent);
+    pointer-events: none;
+}
+
+.cfg-profile-card:hover {
+    border-color: var(--bd1);
+    background: rgba(34, 211, 238, 0.08);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(34, 211, 238, 0.15);
+}
+
+.cfg-profile-card.active {
+    border-color: var(--cy);
+    background: rgba(34, 211, 238, 0.12);
+    box-shadow: 0 8px 20px rgba(34, 211, 238, 0.2), 0 0 20px rgba(34, 211, 238, 0.1);
+}
+
+.cfg-profile-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cfg-profile-badge {
+    font-family: var(--fm);
+    font-size: 8px;
+    font-weight: 700;
+    padding: 5px 8px;
+    border: 2px solid;
+    border-radius: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
+    color: currentColor;
+}
+
+.cfg-badge-fips {
+    border-color: #FF6B6B;
+    color: #FF6B6B;
+}
+
+.cfg-badge-fedramp {
+    border-color: #4ECDC4;
+    color: #4ECDC4;
+}
+
+.cfg-badge-hipaa {
+    border-color: #95E1D3;
+    color: #95E1D3;
+}
+
+.cfg-badge-pcidss {
+    border-color: #FFE66D;
+    color: #FFE66D;
+}
+
+.cfg-profile-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.cfg-profile-desc {
+    font-size: 11px;
+    color: var(--t2);
+    line-height: 1.4;
+}
+
+.cfg-profile-impact {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.cfg-impact-label {
+    font-size: 10px;
+    color: var(--t2);
+    font-weight: 500;
+}
+
+.cfg-impact-breaking {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--am);
+    padding: 2px 6px;
+    background: rgba(245, 158, 11, 0.1);
+    border-radius: 3px;
+    display: none;
+}
+
+.cfg-impact-breaking.has-breaking {
+    display: inline-block;
+}
+
+/* S10.1 — Impact Preview Modal */
+.cfg-preview-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 600;
+    animation: fadeIn 200ms ease;
+}
+
+.cfg-preview-modal {
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 12px;
+    max-width: 680px;
+    max-height: 80vh;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    animation: slideDown 300ms ease;
+}
+
+.cfg-preview-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 20px;
+    border-bottom: 1px solid var(--bd);
+    gap: 12px;
+}
+
+.cfg-preview-header h3 {
+    margin: 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.cfg-preview-desc {
+    margin: 4px 0 0 0;
+    font-size: 11px;
+    color: var(--t2);
+    font-weight: 500;
+}
+
+.cfg-preview-close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--t2);
+    cursor: pointer;
+    transition: all 150ms ease;
+    border-radius: 4px;
+}
+
+.cfg-preview-close:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--t0);
+}
+
+.cfg-preview-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+/* S10.2 — 3-Column Diff Table */
+.cfg-diff-table {
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--bd);
+    border-radius: 8px;
+    overflow: hidden;
+    background: var(--s1);
+}
+
+.cfg-diff-header-row {
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr 0.5fr;
+    gap: 0;
+    padding: 12px;
+    background: var(--s2);
+    border-bottom: 2px solid var(--bd);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--t0);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cfg-diff-col {
+    padding: 12px;
+    font-family: var(--fb);
+}
+
+.cfg-diff-setting {
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.cfg-diff-current,
+.cfg-diff-proposed {
+    font-family: var(--fm);
+}
+
+.cfg-diff-row {
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr 0.5fr;
+    gap: 0;
+    border-bottom: 1px solid var(--bd);
+    transition: all 150ms ease;
+}
+
+.cfg-diff-row:last-child {
+    border-bottom: none;
+}
+
+.cfg-diff-row:hover {
+    background: rgba(34, 211, 238, 0.04);
+}
+
+.cfg-diff-row.cfg-breaking {
+    background: rgba(244, 67, 54, 0.05);
+    border-left: 4px solid var(--rd);
+}
+
+.cfg-diff-row.cfg-improved {
+    background: rgba(76, 175, 80, 0.05);
+    border-left: 4px solid var(--em);
+}
+
+.cfg-diff-value {
+    font-size: 11px;
+    color: var(--t0);
+    font-weight: 500;
+    word-break: break-word;
+}
+
+.cfg-breaking-badge,
+.cfg-improved-badge {
+    display: inline-block;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 3px;
+    margin-top: 4px;
+}
+
+.cfg-breaking-badge {
+    background: rgba(244, 67, 54, 0.15);
+    color: var(--rd);
+}
+
+.cfg-improved-badge {
+    background: rgba(76, 175, 80, 0.15);
+    color: var(--em);
+}
+
+/* S10.2 — Breaking Changes Warning */
+.cfg-breaking-warning {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 14px;
+    background: rgba(244, 67, 54, 0.1);
+    border: 1px solid rgba(244, 67, 54, 0.3);
+    border-left: 4px solid var(--rd);
+    border-radius: 6px;
+}
+
+.cfg-warning-icon {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(244, 67, 54, 0.15);
+    border-radius: 50%;
+    color: var(--rd);
+    font-size: 16px;
+    font-weight: 700;
+    flex-shrink: 0;
+}
+
+.cfg-warning-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.cfg-warning-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--rd);
+}
+
+.cfg-warning-desc {
+    font-size: 11px;
+    color: var(--t2);
+    line-height: 1.4;
+}
+
+/* S10.3 — Approval Flow Modal */
+.cfg-approval-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 650;
+    animation: fadeIn 200ms ease;
+}
+
+.cfg-approval-modal {
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 12px;
+    max-width: 520px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+    animation: slideDown 300ms ease;
+}
+
+.cfg-approval-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid var(--bd);
+}
+
+.cfg-approval-header h3 {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.cfg-approval-close {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: var(--t2);
+    cursor: pointer;
+    transition: all 150ms ease;
+    border-radius: 4px;
+}
+
+.cfg-approval-close:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--t0);
+}
+
+.cfg-approval-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    overflow-y: auto;
+    max-height: 400px;
+}
+
+.cfg-approval-summary {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.cfg-summary-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px;
+    background: var(--s2);
+    border-radius: 6px;
+    border: 1px solid var(--bd);
+}
+
+.cfg-stat-value {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--cy);
+}
+
+.cfg-stat-breaking {
+    color: var(--rd);
+}
+
+.cfg-stat-impact {
+    color: var(--am);
+}
+
+.cfg-stat-label {
+    font-size: 10px;
+    color: var(--t2);
+    text-align: center;
+    font-weight: 600;
+}
+
+.cfg-approval-checklist {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.cfg-check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.cfg-check {
+    width: 18px;
+    height: 18px;
+    cursor: pointer;
+    accent-color: var(--cy);
+}
+
+.cfg-check-item label {
+    font-size: 11px;
+    color: var(--t1);
+    cursor: pointer;
+    flex: 1;
+    user-select: none;
+}
+
+.cfg-approval-notice {
+    padding: 11px;
+    background: rgba(34, 211, 238, 0.08);
+    border: 1px solid rgba(34, 211, 238, 0.2);
+    border-left: 3px solid var(--cy);
+    border-radius: 4px;
+    font-size: 10px;
+    color: var(--t1);
+    line-height: 1.5;
+}
+
+.cfg-approval-actions {
+    display: flex;
+    gap: 12px;
+    padding: 16px;
+    border-top: 1px solid var(--bd);
+    justify-content: flex-end;
+}
+
+/* S10.1 — Configuration Presets Section */
+.cfg-presets-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cfg-preset-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 12px;
+}
+
+.cfg-preset-card {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 14px;
+    background: var(--glass-2);
+    border: 2px solid var(--bd);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 200ms ease;
+    backdrop-filter: blur(12px);
+}
+
+.cfg-preset-card:hover {
+    border-color: var(--bd1);
+    transform: translateY(-2px);
+    background: rgba(34, 211, 238, 0.08);
+}
+
+.cfg-preset-card.active {
+    border-color: var(--cy);
+    background: rgba(34, 211, 238, 0.12);
+    box-shadow: 0 0 16px rgba(34, 211, 238, 0.15);
+}
+
+.cfg-preset-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.cfg-preset-desc {
+    font-size: 10px;
+    color: var(--t2);
+    line-height: 1.4;
+}
+
+.cfg-preset-btn {
+    padding: 6px 12px;
+    background: var(--vl);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 150ms ease;
+    align-self: flex-start;
+}
+
+.cfg-preset-btn:hover {
+    background: var(--vl1);
+    transform: translateY(-1px);
+}
+
+/* S10 — Settings Section */
+.cfg-settings-section {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cfg-settings-table {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.cfg-settings-row {
+    display: grid;
+    grid-template-columns: 200px 1fr 120px;
+    gap: 12px;
+    align-items: center;
+    padding: 12px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 6px;
+    transition: all 150ms ease;
+}
+
+.cfg-settings-row:hover {
+    background: var(--s1);
+    border-color: var(--bd1);
+}
+
+.cfg-settings-key {
+    font-family: var(--fm);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--cy);
+    word-break: break-word;
+}
+
+.cfg-settings-value {
+    padding: 8px 10px;
+    background: var(--s1);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    color: var(--t0);
+    font-family: var(--fm);
+    font-size: 11px;
+    outline: none;
+    transition: all 150ms ease;
+}
+
+.cfg-settings-value:focus {
+    border-color: var(--cy);
+    box-shadow: 0 0 8px rgba(34, 211, 238, 0.2);
+}
+
+.cfg-settings-type {
+    font-size: 10px;
+    color: var(--t2);
+    font-family: var(--fm);
+    font-weight: 600;
+    padding: 4px 8px;
+    background: var(--s1);
+    border-radius: 3px;
+    text-align: center;
+}
+
+/* Common Button Styles */
+.cfg-btn {
+    padding: 9px 18px;
+    border: none;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 150ms ease;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.cfg-btn-primary {
+    background: var(--cy);
+    color: black;
+}
+
+.cfg-btn-primary:hover {
+    background: var(--cy1);
+    transform: translateY(-1px);
+    box-shadow: 0 6px 16px rgba(34, 211, 238, 0.3);
+}
+
+.cfg-btn-secondary {
+    background: var(--s2);
+    color: var(--t0);
+    border: 1px solid var(--bd);
+}
+
+.cfg-btn-secondary:hover {
+    background: var(--s3);
+    border-color: var(--bd1);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .cfg-profile-grid {
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    }
+
+    .cfg-diff-header-row,
+    .cfg-diff-row {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    .cfg-settings-row {
+        grid-template-columns: 160px 1fr auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .configuration {
+        gap: 16px;
+        padding: 12px;
+    }
+
+    .cfg-unsaved-floating {
+        bottom: 12px;
+        right: 12px;
+        left: 12px;
+        max-width: none;
+    }
+
+    .cfg-banner-content {
+        flex-direction: column;
+    }
+
+    .cfg-profile-grid,
+    .cfg-preset-grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    }
+
+    .cfg-preview-modal,
+    .cfg-approval-modal {
+        max-width: 95vw;
+        max-height: 95vh;
+        border-radius: 8px;
+    }
+
+    .cfg-diff-header-row,
+    .cfg-diff-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .cfg-diff-col {
+        display: flex;
+        gap: 6px;
+    }
+
+    .cfg-diff-col::before {
+        content: attr(data-label);
+        font-weight: 700;
+        min-width: 60px;
+    }
+
+    .cfg-settings-row {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .cfg-approval-summary {
+        grid-template-columns: 1fr;
+    }
+
+    .cfg-banner-btn {
+        flex: 1;
+    }
+}
+
+@media (max-width: 480px) {
+    .configuration {
+        padding: 8px;
+        gap: 12px;
+    }
+
+    .cfg-profile-grid,
+    .cfg-preset-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .cfg-section-header h2 {
+        font-size: 15px;
+    }
+
+    .cfg-banner-actions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .cfg-preview-header,
+    .cfg-approval-header {
+        padding: 14px;
+    }
+
+    .cfg-preview-content,
+    .cfg-approval-content {
+        padding: 14px;
+    }
+}

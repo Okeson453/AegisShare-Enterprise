@@ -1,0 +1,188 @@
+/**
+ * Responsive Utility Classes
+ * Standardized responsive design patterns for AegisShare
+ * 
+ * These utilities provide consistent responsive behavior across all pages
+ * while maintaining performance and accessibility standards.
+ */
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* CONTAINER UTILITIES */
+/* ──────────────────────────────────────────────────────────────────────────── */
+
+.container-page {
+    @apply bg-s1 min-h-screen p-3 md:p-5 lg:p-6 overflow-y-auto;
+}
+
+.container-card {
+    @apply p-4 md:p-5 lg:p-6 bg-s1 border border-bd rounded-lg;
+}
+
+.container-card-hover {
+    @apply container-card hover:shadow-md hover:border-bd2 transition-all duration-300;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* TYPOGRAPHY UTILITIES */
+/* ──────────────────────────────────────────────────────────────────────────── */
+
+.text-page-header {
+    @apply text-2xl md:text-3xl lg:text-4xl font-bold text-t0 mb-2;
+}
+
+.text-page-subtitle {
+    @apply text-sm md:text-base text-t2;
+}
+
+.text-section-header {
+    @apply text-lg md:text-xl font-bold text-t0 mb-3;
+}
+
+.text-card-label {
+    @apply text-xs md:text-sm text-t2 font-medium;
+}
+
+.text-card-value {
+    @apply text-lg md:text-2xl font-semibold text-t0;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* SPACING UTILITIES */
+/* ──────────────────────────────────────────────────────────────────────────── */
+
+.spacing-section {
+    @apply mb-4 md:mb-6 lg:mb-8;
+}
+
+.spacing-subsection {
+    @apply mb-3 md:mb-4 lg:mb-5;
+}
+
+.spacing-item {
+    @apply mb-2 md:mb-3;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* GRID UTILITIES */
+/* ──────────────────────────────────────────────────────────────────────────── */
+
+.grid-stat-cards {
+    @apply grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4;
+}
+
+.grid-feature-cards {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5;
+}
+
+.grid-cert-cards {
+    @apply grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* BUTTON UTILITIES */
+/* ──────────────────────────────────────────────────────────────────────────── */
+
+.button-primary {
+    @apply px-4 md:px-5 py-2 md:py-2.5 bg-cy hover:bg-cyan-600 text-black font-semibold rounded-lg transition-colors;
+}
+
+.button-secondary {
+    @apply px-4 md:px-5 py-2 md:py-2.5 bg-s2 hover:bg-s3 border border-bd text-t0 font-semibold rounded-lg transition-colors;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* BADGE/LABEL UTILITIES */
+/* ──────────────────────────────────────────────────────────────────────────── */
+
+.badge-status {
+    @apply inline-block px-2 md:px-3 py-1 text-xs md:text-xs font-semibold rounded;
+}
+
+.badge-success {
+    @apply badge-status bg-green-900/30 text-green-400;
+}
+
+.badge-warning {
+    @apply badge-status bg-amber-900/30 text-amber-400;
+}
+
+.badge-error {
+    @apply badge-status bg-red-900/30 text-red-400;
+}
+
+.badge-info {
+    @apply badge-status bg-blue-900/30 text-blue-400;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* PROGRESS BAR UTILITIES */
+/* ──────────────────────────────────────────────────────────────────────────── */
+
+.progress-bar-container {
+    @apply w-full h-2 md:h-2.5 bg-s3 rounded-full overflow-hidden;
+}
+
+.progress-bar-fill {
+    @apply h-full rounded-full transition-all;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* RESPONSIVE BREAKPOINT HELPERS */
+/* ──────────────────────────────────────────────────────────────────────────── */
+
+/* Mobile-first: default is mobile, sm+ is 640px, md+ is 768px, lg+ is 1024px */
+.mobile-only {
+    @apply block md:hidden;
+}
+
+.tablet-up {
+    @apply hidden md:block;
+}
+
+.desktop-only {
+    @apply hidden lg:block;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* RESPONSIVE PADDING UTILITIES */
+/* ──────────────────────────────────────────────────────────────────────────── */
+
+.px-responsive {
+    @apply px-3 md:px-5 lg:px-6;
+}
+
+.py-responsive {
+    @apply py-3 md:py-5 lg:py-6;
+}
+
+.p-responsive {
+    @apply p-3 md:p-5 lg:p-6;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* RESPONSIVE GAP UTILITIES */
+/* ──────────────────────────────────────────────────────────────────────────── */
+
+.gap-responsive {
+    @apply gap-3 md:gap-4 lg:gap-5;
+}
+
+.gap-responsive-sm {
+    @apply gap-2 md:gap-3 lg:gap-4;
+}
+
+/* ──────────────────────────────────────────────────────────────────────────── */
+/* RESPONSIVE FONT SIZE UTILITIES */
+/* ──────────────────────────────────────────────────────────────────────────── */
+
+.text-responsive-lg {
+    @apply text-lg md:text-xl lg:text-2xl;
+}
+
+.text-responsive-md {
+    @apply text-base md:text-lg;
+}
+
+.text-responsive-sm {
+    @apply text-sm md:text-base;
+}

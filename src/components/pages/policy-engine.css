@@ -1,0 +1,271 @@
+/* PolicyEngine Component - Visual Rule Builder, OPA Editor, PDP Simulator */
+
+.policy-engine {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 10px;
+    padding: 12px;
+}
+
+/* Rule Builder */
+.pe-builder-panel {
+    grid-column: 1 / 8;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.pe-builder-header {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.pe-rule-condition {
+    display: grid;
+    grid-template-columns: 1fr 1fr auto;
+    gap: 8px;
+    align-items: center;
+    padding: 10px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 6px;
+    font-size: 11px;
+}
+
+.pe-condition-select {
+    padding: 6px 8px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    color: var(--t0);
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.pe-condition-select:hover {
+    border-color: var(--bd1);
+}
+
+.pe-remove-btn {
+    width: 28px;
+    height: 28px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--rd);
+    border-radius: 4px;
+    color: var(--rd);
+    cursor: pointer;
+    transition: all 200ms ease;
+    font-size: 12px;
+}
+
+.pe-remove-btn:hover {
+    background: rgba(244, 67, 54, 0.1);
+}
+
+.pe-add-condition-btn {
+    padding: 8px 12px;
+    background: var(--cy);
+    color: black;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 200ms ease;
+}
+
+.pe-add-condition-btn:hover {
+    background: var(--cy1);
+    box-shadow: 0 0 12px rgba(34, 211, 238, 0.3);
+}
+
+/* OPA Editor Panel */
+.pe-opa-editor {
+    grid-column: 8 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.pe-opa-header {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.pe-opa-textarea {
+    flex: 1;
+    padding: 10px;
+    background: var(--s1);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    font-family: 'Monaco', 'Courier New', monospace;
+    font-size: 10px;
+    color: var(--t0);
+    resize: none;
+    min-height: 200px;
+}
+
+.pe-opa-validate-btn {
+    padding: 8px 12px;
+    background: var(--em);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 200ms ease;
+}
+
+.pe-opa-validate-btn:hover {
+    background: var(--em1);
+}
+
+/* Decision Point Simulator */
+.pe-simulator-panel {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 10px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.pe-simulator-title {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.pe-simulator-input {
+    grid-column: 1 / 7;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pe-input-field {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.pe-input-label {
+    font-size: 10px;
+    color: var(--t1);
+    font-weight: 600;
+}
+
+.pe-input-value {
+    padding: 6px 8px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+    font-size: 11px;
+    color: var(--t0);
+}
+
+.pe-simulator-output {
+    grid-column: 7 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.pe-output-box {
+    padding: 12px;
+    background: var(--s1);
+    border: 1px solid var(--bd);
+    border-radius: 4px;
+}
+
+.pe-output-decision {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.pe-output-decision.allow {
+    color: var(--em);
+}
+
+.pe-output-decision.deny {
+    color: var(--rd);
+}
+
+.pe-output-reason {
+    font-size: 10px;
+    color: var(--t2);
+    margin-top: 4px;
+}
+
+.pe-simulate-btn {
+    padding: 8px 12px;
+    background: var(--vl);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 200ms ease;
+}
+
+.pe-simulate-btn:hover {
+    background: var(--vl1);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .policy-engine {
+        grid-template-columns: 1fr;
+    }
+
+    .pe-builder-panel {
+        grid-column: 1 / -1;
+    }
+
+    .pe-opa-editor {
+        grid-column: 1 / -1;
+    }
+
+    .pe-simulator-input {
+        grid-column: 1 / -1;
+    }
+
+    .pe-simulator-output {
+        grid-column: 1 / -1;
+    }
+}
+
+@media (max-width: 768px) {
+    .policy-engine {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .pe-rule-condition {
+        grid-template-columns: 1fr;
+    }
+}

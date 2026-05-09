@@ -1,0 +1,282 @@
+/* ComplianceHub Component - Compliance Arcs, Control Drill-Down, Bento Row */
+
+.compliance-hub {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 10px;
+    padding: 12px;
+}
+
+/* Compliance Score Arcs */
+.ch-compliance-arcs {
+    grid-column: 1 / 7;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.ch-arc-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 16px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 6px;
+}
+
+.ch-arc-title {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--t1);
+    text-align: center;
+}
+
+.ch-arc-svg {
+    width: 120px;
+    height: 120px;
+}
+
+.ch-arc-score {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--t0);
+    font-family: 'Monaco', 'Courier New', monospace;
+}
+
+.ch-arc-status {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 3px;
+    width: fit-content;
+}
+
+.ch-arc-status.compliant {
+    background: rgba(76, 175, 80, 0.2);
+    color: var(--em);
+}
+
+.ch-arc-status.warning {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--am);
+}
+
+.ch-arc-status.critical {
+    background: rgba(244, 67, 54, 0.2);
+    color: var(--rd);
+}
+
+/* Control Drill-Down */
+.ch-drill-down {
+    grid-column: 7 / -1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.ch-drill-header {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.ch-control-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.ch-control-item {
+    display: grid;
+    grid-template-columns: 24px 1fr 40px;
+    gap: 8px;
+    align-items: center;
+    padding: 10px;
+    background: var(--s2);
+    border-left: 3px solid var(--bd);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 200ms ease;
+    font-size: 11px;
+}
+
+.ch-control-item:hover {
+    background: var(--s1);
+    border-left-color: var(--cy);
+}
+
+.ch-control-status-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.ch-control-status-icon.pass {
+    background: rgba(76, 175, 80, 0.2);
+    color: var(--em);
+}
+
+.ch-control-status-icon.fail {
+    background: rgba(244, 67, 54, 0.2);
+    color: var(--rd);
+}
+
+.ch-control-status-icon.warn {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--am);
+}
+
+.ch-control-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ch-control-name {
+    font-weight: 600;
+    color: var(--t0);
+}
+
+.ch-control-desc {
+    font-size: 10px;
+    color: var(--t2);
+}
+
+.ch-control-severity {
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 4px;
+    border-radius: 2px;
+}
+
+.ch-control-severity.low {
+    background: rgba(33, 150, 243, 0.1);
+    color: var(--vl);
+}
+
+.ch-control-severity.high {
+    background: rgba(244, 67, 54, 0.1);
+    color: var(--rd);
+}
+
+/* Compliance Bento Row */
+.ch-compliance-row {
+    grid-column: 1 / -1;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 10px;
+    padding: 12px;
+    background: var(--glass-2);
+    border: 1px solid var(--glass-bd);
+    border-radius: 8px;
+    backdrop-filter: blur(12px);
+}
+
+.ch-compliance-row-title {
+    grid-column: 1 / -1;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.ch-compliance-card {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    background: var(--s2);
+    border: 1px solid var(--bd);
+    border-radius: 6px;
+    transition: all 200ms ease;
+}
+
+.ch-compliance-card:hover {
+    background: var(--s1);
+    border-color: var(--bd1);
+    transform: translateY(-2px);
+}
+
+.ch-compliance-card-title {
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--t1);
+}
+
+.ch-compliance-card-value {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--t0);
+}
+
+.ch-compliance-card-trend {
+    font-size: 9px;
+    color: var(--t2);
+    display: flex;
+    align-items: center;
+    gap: 3px;
+}
+
+.ch-compliance-card-trend.up {
+    color: var(--em);
+}
+
+.ch-compliance-card-trend.down {
+    color: var(--rd);
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .compliance-hub {
+        grid-template-columns: 1fr;
+    }
+
+    .ch-compliance-arcs {
+        grid-column: 1 / -1;
+    }
+
+    .ch-drill-down {
+        grid-column: 1 / -1;
+    }
+
+    .ch-compliance-row {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .compliance-hub {
+        padding: 8px;
+        gap: 8px;
+    }
+
+    .ch-compliance-arcs {
+        grid-template-columns: 1fr;
+    }
+
+    .ch-compliance-row {
+        grid-template-columns: 1fr;
+    }
+
+    .ch-control-item {
+        grid-template-columns: 20px 1fr 30px;
+    }
+}

@@ -1,0 +1,5 @@
+export { RegionCard } from './RegionCard'
+export { RegionMap } from './RegionMap'
+export { ErasureRequestList } from './ErasureRequestList'
+export { ErasureRequestDetail } from './ErasureRequestDetail'
+export { TransferLogTable } from './TransferLogTable'
