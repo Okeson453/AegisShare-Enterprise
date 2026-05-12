@@ -344,7 +344,10 @@ body {
     }
 }
 
-/* Global Animations */
+/* =============================================================================
+   GLOBAL ANIMATIONS
+   ============================================================================= */
+
 @keyframes blink {
 
     0%,
@@ -537,7 +540,10 @@ body {
     }
 }
 
-/* Glass Morphism System */
+/* =============================================================================
+   GLASS MORPHISM SYSTEM
+   ============================================================================= */
+
 .glass-card {
     background: var(--glass-2);
     backdrop-filter: blur(24px) saturate(180%);
@@ -556,7 +562,10 @@ body {
     border-radius: var(--r-xl);
 }
 
-/* Shimmer Loading Effect */
+/* =============================================================================
+   SHIMMER LOADING
+   ============================================================================= */
+
 .shimmer-effect {
     background: linear-gradient(90deg,
             var(--s2) 25%,
@@ -566,7 +575,11 @@ body {
     animation: shimmer 1.8s ease-in-out infinite;
 }
 
-/* Toast Notifications */
+/* =============================================================================
+   TOAST NOTIFICATIONS — canonical definition
+   Full variants live in toast-notifications.css (imported above)
+   ============================================================================= */
+
 .toast-container {
     position: fixed;
     bottom: 24px;
@@ -611,7 +624,10 @@ body {
     border-left-color: var(--cy);
 }
 
-/* Button System */
+/* =============================================================================
+   BUTTON SYSTEM
+   ============================================================================= */
+
 .btn {
     font-family: var(--fb);
     font-size: 13px;
@@ -658,7 +674,10 @@ body {
     border-color: rgba(244, 63, 94, 0.5);
 }
 
-/* Stat Cards */
+/* =============================================================================
+   STAT CARDS
+   ============================================================================= */
+
 .stat-card {
     background: var(--s2);
     border: 1px solid var(--bd);
@@ -717,7 +736,10 @@ body {
     color: var(--rd);
 }
 
-/* Modal System */
+/* =============================================================================
+   MODAL SYSTEM — canonical definition (single source of truth)
+   ============================================================================= */
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -748,7 +770,10 @@ body {
     animation: slideUp var(--t-mid) var(--ease-smooth);
 }
 
-/* Badge System */
+/* =============================================================================
+   BADGE SYSTEM
+   ============================================================================= */
+
 .badge {
     display: inline-flex;
     align-items: center;
@@ -786,7 +811,10 @@ body {
     border: 1px solid rgba(34, 211, 238, 0.3);
 }
 
-/* Table System */
+/* =============================================================================
+   TABLE SYSTEM
+   ============================================================================= */
+
 .data-table {
     width: 100%;
     border-collapse: collapse;
@@ -816,7 +844,10 @@ body {
     background: var(--s2);
 }
 
-/* Section Labels (Cinzel) */
+/* =============================================================================
+   SECTION LABELS
+   ============================================================================= */
+
 .section-superlabel {
     font-family: var(--fm);
     font-size: 8px;
