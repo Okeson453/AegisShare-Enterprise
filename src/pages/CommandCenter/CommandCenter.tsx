@@ -136,6 +136,10 @@ const CommandCenter: React.FC = () => {
     ]
 
     useEffect(() => {
+        // Consolidated simulation interval for production optimization
+        // In production, replace this with real API calls and WebSocket
+        if (!import.meta.env.DEV) return
+
         const updateTime = () => {
             const now = new Date()
             const utcTime = now.toLocaleTimeString('en-US', { timeZone: 'UTC' })
@@ -143,37 +147,27 @@ const CommandCenter: React.FC = () => {
             setTimeString(`UTC ${utcTime} | IST ${istTime}`)
         }
         updateTime()
-        const interval = setInterval(updateTime, 1000)
-        return () => clearInterval(interval)
-    }, [])
 
-    useEffect(() => {
-        setAnimatePackets(true)
-        const timer = setTimeout(() => setAnimatePackets(false), 1000)
-        return () => clearTimeout(timer)
-    }, [])
+        let tick = 0
+        const interval = setInterval(() => {
+            tick++
+            // Update time every tick (1s)
+            updateTime()
 
-    // Auto-replay swimlane every 6 seconds
-    useEffect(() => {
-        if (!autoReplayEnabled) return
-        const autoPlayInterval = setInterval(() => {
-            setAnimatePackets(true)
-            setTimeout(() => setAnimatePackets(false), 1000)
-        }, 6000)
-        return () => clearInterval(autoPlayInterval)
-    }, [autoReplayEnabled])
+            // Auto-replay swimlane every 6 ticks (6s)
+            if (autoReplayEnabled && tick % 6 === 0) {
+                setAnimatePackets(true)
+                setTimeout(() => setAnimatePackets(false), 1000)
+            }
 
-    // Simulate buffered events
-    useEffect(() => {
-        if (liveStreamPaused) {
-            const bufferInterval = setInterval(() => {
+            // Simulate buffered events every 2 ticks (2s) when paused
+            if (liveStreamPaused && tick % 2 === 0) {
                 setBufferedEvents(prev => prev + Math.floor(Math.random() * 3) + 1)
-            }, 2000)
-            return () => clearInterval(bufferInterval)
-        } else {
-            setBufferedEvents(0)
-        }
-    }, [liveStreamPaused])
+            }
+        }, 1000)
+
+        return () => clearInterval(interval)
+    }, [autoReplayEnabled, liveStreamPaused])
 
     const generateSparklinePoints = (data: number[]) => {
         const maxValue = Math.max(...data)
@@ -228,7 +222,7 @@ const CommandCenter: React.FC = () => {
     }[defconLevel] || 'rgb(34, 211, 238)'
 
     return (
-        <div 
+        <div
             className="bg-s1 min-h-screen overflow-y-auto"
             style={{
                 padding: 'clamp(12px, 5vw, 24px)',
@@ -278,8 +272,8 @@ const CommandCenter: React.FC = () => {
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
                 {kpiCards.map((card) => (
-                    <div 
-                        key={card.id} 
+                    <div
+                        key={card.id}
                         className="p-4 md:p-5 bg-s1 border border-bd rounded-lg md:rounded-xl transition-all duration-300 hover:shadow-md cursor-pointer"
                         style={{ borderTopColor: card.color, borderTopWidth: '3px' }}
                     >

@@ -50,31 +50,13 @@ export const DangerModal = ({
             </ModalHeader>
 
             <ModalBody>
-                <p
-                    style={{
-                        fontSize: '14px',
-                        color: 'var(--t1)',
-                        lineHeight: '1.6',
-                        margin: '0 0 16px 0',
-                    }}
-                >
+                <p className="text-sm text-t1 leading-relaxed mb-4 m-0">
                     {message}
                 </p>
 
-                <div style={{ marginBottom: '16px' }}>
-                    <label
-                        style={{
-                            display: 'block',
-                            fontSize: '12px',
-                            fontWeight: 600,
-                            color: 'var(--t2)',
-                            marginBottom: '8px',
-                            textTransform: 'uppercase',
-                            letterSpacing: '0.5px',
-                        }}
-                    >
-                        Type <code style={{ color: 'var(--rd)', fontWeight: 700 }}>{confirmPhrase}</code> to
-                        confirm
+                <div className="mb-4">
+                    <label className="block text-xs font-semibold text-t2 mb-2 uppercase tracking-wider">
+                        Type <code className="text-rd font-bold">{confirmPhrase}</code> to confirm
                     </label>
 
                     <input
@@ -82,18 +64,7 @@ export const DangerModal = ({
                         value={userInput}
                         onChange={(e) => setUserInput(e.target.value)}
                         placeholder={confirmPhrase}
-                        style={{
-                            width: '100%',
-                            padding: '10px 12px',
-                            fontSize: '14px',
-                            backgroundColor: 'var(--s1)',
-                            border: `1px solid ${userInput === confirmPhrase ? 'var(--rd)' : 'var(--bd)'}`,
-                            borderRadius: '6px',
-                            color: 'var(--t0)',
-                            fontFamily: 'var(--font-mono)',
-                            transition: 'all 0.2s ease',
-                            boxSizing: 'border-box',
-                        }}
+                        className={`w-full px-3 py-2 text-sm bg-s1 rounded font-mono text-t0 transition-all duration-200 ${userInput === confirmPhrase ? 'border-rd' : 'border-bd'} border`}
                         onKeyDown={(e) => {
                             if (e.key === 'Enter' && !isConfirmDisabled) {
                                 handleConfirm()
@@ -102,23 +73,8 @@ export const DangerModal = ({
                     />
                 </div>
 
-                <div
-                    style={{
-                        padding: '12px',
-                        backgroundColor: 'rgba(239, 68, 68, 0.05)',
-                        border: '1px solid rgba(239, 68, 68, 0.2)',
-                        borderRadius: '6px',
-                    }}
-                >
-                    <p
-                        style={{
-                            fontSize: '12px',
-                            color: 'var(--rd)',
-                            margin: 0,
-                            fontWeight: 500,
-                            lineHeight: '1.4',
-                        }}
-                    >
+                <div className="p-3 bg-red-50 border border-red-200 rounded">
+                    <p className="text-xs text-rd m-0 font-medium leading-relaxed">
                         ⚠️ This action cannot be undone.
                     </p>
                 </div>
@@ -127,27 +83,17 @@ export const DangerModal = ({
             <ModalFooter>
                 <button
                     onClick={handleCancel}
-                    style={{
-                        flex: 1,
-                        padding: '10px 16px',
-                        backgroundColor: 'var(--s1)',
-                        border: '1px solid var(--bd)',
-                        borderRadius: '6px',
-                        fontSize: '14px',
-                        fontWeight: 500,
-                        color: 'var(--t0)',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.backgroundColor = 'var(--s2)'
-                        el.style.borderColor = 'var(--s4)'
-                    }}
-                    onMouseLeave={(e) => {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.backgroundColor = 'var(--s1)'
-                        el.style.borderColor = 'var(--bd)'
+                    className="flex-1 px-4 py-2 bg-s1 border border-bd rounded text-sm font-medium text-t0 cursor-pointer transition-all duration-200 hover:bg-s2 hover:border-s4"
+                >
+                    {cancelLabel}
+                </button>
+
+                <button
+                    onClick={handleConfirm}
+                    disabled={isConfirmDisabled}
+                    className="flex-1 px-4 py-2 bg-rd border border-rd rounded text-sm font-semibold text-white cursor-pointer transition-all duration-200 hover:opacity-90 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                    {confirmLabel}
                     }}
                 >
                     {cancelLabel}

@@ -12,14 +12,15 @@ interface CountUpProps {
  * CountUp Component — Animated numeric counter with easing
  * Renders a number that animates from 0 to the target value
  */
-export function CountUp({ 
-    value, 
-    duration = 1200, 
-    format = (v) => v.toLocaleString(), 
+export function CountUp({
+    value,
+    duration = 1200,
+    format = (v) => v.toLocaleString(),
     className = '',
     decimals = 0
 }: CountUpProps) {
     const ref = useRef<HTMLSpanElement>(null)
+    const rafIdRef = useRef<number | null>(null)
 
     useEffect(() => {
         const element = ref.current
@@ -43,11 +44,21 @@ export function CountUp({
             }
 
             if (progress < 1) {
-                requestAnimationFrame(animate)
+                rafIdRef.current = requestAnimationFrame(animate)
+            } else {
+                rafIdRef.current = null
             }
         }
 
         animate()
+
+        // Cleanup: cancel any pending animation frames
+        return () => {
+            if (rafIdRef.current !== null) {
+                cancelAnimationFrame(rafIdRef.current)
+                rafIdRef.current = null
+            }
+        }
     }, [value, duration, format, decimals])
 
     return <span ref={ref} className={className}>{format(0)}</span>

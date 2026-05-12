@@ -17,7 +17,7 @@ interface AppLayoutIntegrationProps {
  */
 export const HeaderSearch = ({ searchIndex = [] }: AppLayoutIntegrationProps) => {
     return (
-        <div style={{ flex: 1, maxWidth: '400px' }}>
+        <div className="flex-1 max-w-sm">
             <GlobalSearch
                 items={searchIndex}
                 searchFields={['name', 'type']}
@@ -29,16 +29,11 @@ export const HeaderSearch = ({ searchIndex = [] }: AppLayoutIntegrationProps) =>
                     }
                 }}
                 renderResult={(item) => (
-                    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <div className="flex justify-between items-center">
                         <span>{(item as any).name}</span>
                         <span
-                            style={{
-                                fontSize: '11px',
-                                color: 'var(--t3)',
-                                backgroundColor: 'var(--s2)',
-                                padding: '2px 6px',
-                                borderRadius: '3px',
-                            }}
+                            className="text-xs px-1.5 py-0.5 rounded bg-s2 text-t3"
+                            style={{ color: 'var(--t3)', backgroundColor: 'var(--s2)' }}
                         >
                             {(item as any).type}
                         </span>

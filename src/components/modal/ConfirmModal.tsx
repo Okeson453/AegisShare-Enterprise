@@ -33,14 +33,7 @@ export const ConfirmModal = ({
             </ModalHeader>
 
             <ModalBody>
-                <p
-                    style={{
-                        fontSize: '14px',
-                        color: 'var(--t1)',
-                        lineHeight: '1.6',
-                        margin: 0,
-                    }}
-                >
+                <p className="text-sm text-t1 leading-relaxed m-0">
                     {message}
                 </p>
             </ModalBody>
@@ -48,54 +41,14 @@ export const ConfirmModal = ({
             <ModalFooter>
                 <button
                     onClick={onCancel}
-                    style={{
-                        flex: 1,
-                        padding: '10px 16px',
-                        backgroundColor: 'var(--s1)',
-                        border: '1px solid var(--bd)',
-                        borderRadius: '6px',
-                        fontSize: '14px',
-                        fontWeight: 500,
-                        color: 'var(--t0)',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.backgroundColor = 'var(--s2)'
-                        el.style.borderColor = 'var(--s4)'
-                    }}
-                    onMouseLeave={(e) => {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.backgroundColor = 'var(--s1)'
-                        el.style.borderColor = 'var(--bd)'
-                    }}
+                    className="flex-1 px-4 py-2 bg-s1 border border-bd rounded text-sm font-medium text-t0 cursor-pointer transition-all duration-200 hover:bg-s2 hover:border-s4"
                 >
                     {cancelLabel}
                 </button>
 
                 <button
                     onClick={onConfirm}
-                    style={{
-                        flex: 1,
-                        padding: '10px 16px',
-                        backgroundColor: isDangerous ? 'var(--rd)' : 'var(--cy)',
-                        border: `1px solid ${isDangerous ? 'var(--rd)' : 'var(--cy)'}`,
-                        borderRadius: '6px',
-                        fontSize: '14px',
-                        fontWeight: 600,
-                        color: '#fff',
-                        cursor: 'pointer',
-                        transition: 'all 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.opacity = '0.9'
-                    }}
-                    onMouseLeave={(e) => {
-                        const el = e.currentTarget as HTMLButtonElement
-                        el.style.opacity = '1'
-                    }}
+                    className={`flex-1 px-4 py-2 rounded text-sm font-semibold text-white cursor-pointer transition-all duration-200 hover:opacity-90 ${isDangerous ? 'bg-rd border border-rd' : 'bg-cy border border-cy'}`}
                 >
                     {confirmLabel}
                 </button>

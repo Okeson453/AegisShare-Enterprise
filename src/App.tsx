@@ -6,6 +6,7 @@ import PageLoader from '@/components/common/PageLoader'
 import ProtectedRoute from '@/components/routing/ProtectedRoute'
 import RouteTransition from '@/components/routing/RouteTransition'
 import AppLayout from '@/components/layout/AppLayout'
+import ErrorBoundary from '@/components/error/ErrorBoundary'
 import { ToastProvider } from '@/components/toast/ToastProvider'
 import { ClearanceLevel, UserRole } from '@/types/user'
 
@@ -42,171 +43,173 @@ const Maintenance = lazy(() => import('@/pages/errors/Maintenance'))
 
 export default function App() {
   return (
-    <ToastProvider>
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          {/* Public routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/auth/callback/:provider" element={<SsoCallback />} />
-          <Route path="/maintenance" element={<Maintenance />} />
+    <ErrorBoundary>
+      <ToastProvider>
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* Public routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/auth/callback/:provider" element={<SsoCallback />} />
+            <Route path="/maintenance" element={<Maintenance />} />
 
-          {/* Protected main app routes */}
-          <Route
-            element={
-              <ProtectedRoute>
-                <AppLayout />
-              </ProtectedRoute>
-            }
-          >
-            <Route index element={<Navigate to="/overview" replace />} />
+            {/* Protected main app routes */}
             <Route
-              path="/overview/*"
               element={
-                <RouteTransition>
-                  <CommandCenter />
-                </RouteTransition>
-              }
-            />
-            <Route
-              path="/vault/*"
-              element={
-                <RouteTransition>
-                  <Vault />
-                </RouteTransition>
-              }
-            />
-            <Route
-              path="/compliance/*"
-              element={
-                <RouteTransition>
-                  <ComplianceHub />
-                </RouteTransition>
-              }
-            />
-            <Route
-              path="/policy/*"
-              element={
-                <ProtectedRoute requiredClearance={ClearanceLevel.L2}>
-                  <RouteTransition>
-                    <PolicyEngine />
-                  </RouteTransition>
+                <ProtectedRoute>
+                  <AppLayout />
                 </ProtectedRoute>
               }
-            />
-            <Route
-              path="/audit/*"
-              element={
-                <ProtectedRoute requiredClearance={ClearanceLevel.L2}>
+            >
+              <Route index element={<Navigate to="/overview" replace />} />
+              <Route
+                path="/overview/*"
+                element={
                   <RouteTransition>
-                    <AuditChain />
+                    <CommandCenter />
                   </RouteTransition>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/threat/*"
-              element={
-                <ProtectedRoute requiredClearance={ClearanceLevel.L2}>
+                }
+              />
+              <Route
+                path="/vault/*"
+                element={
                   <RouteTransition>
-                    <ThreatIntel />
+                    <Vault />
                   </RouteTransition>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/keys/*"
-              element={
-                <ProtectedRoute requiredClearance={ClearanceLevel.L3}>
+                }
+              />
+              <Route
+                path="/compliance/*"
+                element={
                   <RouteTransition>
-                    <KeyManagement />
+                    <ComplianceHub />
                   </RouteTransition>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/access/*"
-              element={
-                <ProtectedRoute requiredClearance={ClearanceLevel.L3}>
+                }
+              />
+              <Route
+                path="/policy/*"
+                element={
+                  <ProtectedRoute requiredClearance={ClearanceLevel.L2}>
+                    <RouteTransition>
+                      <PolicyEngine />
+                    </RouteTransition>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/audit/*"
+                element={
+                  <ProtectedRoute requiredClearance={ClearanceLevel.L2}>
+                    <RouteTransition>
+                      <AuditChain />
+                    </RouteTransition>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/threat/*"
+                element={
+                  <ProtectedRoute requiredClearance={ClearanceLevel.L2}>
+                    <RouteTransition>
+                      <ThreatIntel />
+                    </RouteTransition>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/keys/*"
+                element={
+                  <ProtectedRoute requiredClearance={ClearanceLevel.L3}>
+                    <RouteTransition>
+                      <KeyManagement />
+                    </RouteTransition>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/access/*"
+                element={
+                  <ProtectedRoute requiredClearance={ClearanceLevel.L3}>
+                    <RouteTransition>
+                      <AccessControl />
+                    </RouteTransition>
+                  </ProtectedRoute>
+                }
+              />
+              <Route
+                path="/settings/*"
+                element={
                   <RouteTransition>
-                    <AccessControl />
+                    <Settings />
                   </RouteTransition>
-                </ProtectedRoute>
-              }
-            />
-            <Route
-              path="/settings/*"
-              element={
-                <RouteTransition>
-                  <Settings />
-                </RouteTransition>
-              }
-            />
+                }
+              />
 
-            {/* User profile routes */}
-            <Route
-              path="/profile"
-              element={
-                <RouteTransition>
-                  <Profile />
-                </RouteTransition>
-              }
-            />
-            <Route
-              path="/security"
-              element={
-                <RouteTransition>
-                  <Security />
-                </RouteTransition>
-              }
-            />
-            <Route
-              path="/notifications"
-              element={
-                <RouteTransition>
-                  <Notifications />
-                </RouteTransition>
-              }
-            />
-            <Route
-              path="/preferences"
-              element={
-                <RouteTransition>
-                  <Preferences />
-                </RouteTransition>
-              }
-            />
-            <Route
-              path="/appearance"
-              element={
-                <RouteTransition>
-                  <Appearance />
-                </RouteTransition>
-              }
-            />
-
-            {/* Admin routes */}
-            <Route
-              path="/admin/*"
-              element={
-                <ProtectedRoute
-                  requiredClearance={ClearanceLevel.L4}
-                  requiredRoles={[UserRole.Admin, UserRole.Compliance]}
-                  requireMfa
-                >
+              {/* User profile routes */}
+              <Route
+                path="/profile"
+                element={
                   <RouteTransition>
-                    <AdminApp />
+                    <Profile />
                   </RouteTransition>
-                </ProtectedRoute>
-              }
-            />
-          </Route>
+                }
+              />
+              <Route
+                path="/security"
+                element={
+                  <RouteTransition>
+                    <Security />
+                  </RouteTransition>
+                }
+              />
+              <Route
+                path="/notifications"
+                element={
+                  <RouteTransition>
+                    <Notifications />
+                  </RouteTransition>
+                }
+              />
+              <Route
+                path="/preferences"
+                element={
+                  <RouteTransition>
+                    <Preferences />
+                  </RouteTransition>
+                }
+              />
+              <Route
+                path="/appearance"
+                element={
+                  <RouteTransition>
+                    <Appearance />
+                  </RouteTransition>
+                }
+              />
 
-          {/* Error routes */}
-          <Route path="/403" element={<Forbidden />} />
-          <Route path="/error" element={<ErrorPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-    </ToastProvider>
+              {/* Admin routes */}
+              <Route
+                path="/admin/*"
+                element={
+                  <ProtectedRoute
+                    requiredClearance={ClearanceLevel.L4}
+                    requiredRoles={[UserRole.Admin, UserRole.Compliance]}
+                    requireMfa
+                  >
+                    <RouteTransition>
+                      <AdminApp />
+                    </RouteTransition>
+                  </ProtectedRoute>
+                }
+              />
+            </Route>
+
+            {/* Error routes */}
+            <Route path="/403" element={<Forbidden />} />
+            <Route path="/error" element={<ErrorPage />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </ToastProvider>
+    </ErrorBoundary>
   )
 }

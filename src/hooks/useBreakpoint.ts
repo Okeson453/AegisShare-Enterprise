@@ -27,14 +27,12 @@ export function useBreakpoint(): BreakpointState {
     handleResize()
 
     // Add listener for window resize
+    // Note: orientationchange is deprecated and often not fired on modern browsers.
+    // Orientation changes always trigger resize events on modern browsers.
     window.addEventListener('resize', handleResize, { passive: true })
-
-    // Also listen to orientation changes
-    window.addEventListener('orientationchange', handleResize, { passive: true })
 
     return () => {
       window.removeEventListener('resize', handleResize)
-      window.removeEventListener('orientationchange', handleResize)
     }
   }, [handleResize])
 

@@ -1,12 +1,12 @@
 import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react-oxc'   
+import react from '@vitejs/plugin-react'
 import compression from 'vite-plugin-compression'
 import { visualizer } from 'rollup-plugin-visualizer'
 import path from 'path'
 
 export default defineConfig(({ mode }) => ({
   plugins: [
-  
+
     // Uses Rust-based OXC compiler: faster cold starts, better for HDD machines
     react(),
 
@@ -29,16 +29,16 @@ export default defineConfig(({ mode }) => ({
   // ─── Path Aliases ──────────────────────────────────────────────────────────
   resolve: {
     alias: {
-      '@':              path.resolve(__dirname, './src'),
-      '@/components':   path.resolve(__dirname, './src/components'),
-      '@/pages':        path.resolve(__dirname, './src/pages'),
-      '@/hooks':        path.resolve(__dirname, './src/hooks'),
-      '@/services':     path.resolve(__dirname, './src/services'),
-      '@/store':        path.resolve(__dirname, './src/store'),
-      '@/utils':        path.resolve(__dirname, './src/utils'),
-      '@/types':        path.resolve(__dirname, './src/types'),
-      '@/styles':       path.resolve(__dirname, './src/styles'),
-      '@/admin':        path.resolve(__dirname, './src/admin'),
+      '@': path.resolve(__dirname, './src'),
+      '@/components': path.resolve(__dirname, './src/components'),
+      '@/pages': path.resolve(__dirname, './src/pages'),
+      '@/hooks': path.resolve(__dirname, './src/hooks'),
+      '@/services': path.resolve(__dirname, './src/services'),
+      '@/store': path.resolve(__dirname, './src/store'),
+      '@/utils': path.resolve(__dirname, './src/utils'),
+      '@/types': path.resolve(__dirname, './src/types'),
+      '@/styles': path.resolve(__dirname, './src/styles'),
+      '@/admin': path.resolve(__dirname, './src/admin'),
     },
   },
 
@@ -91,9 +91,9 @@ export default defineConfig(({ mode }) => ({
             return pageName ? `page-${pageName.toLowerCase()}` : undefined
           }
         },
-        chunkFileNames:  'assets/js/[name]-[hash].js',
-        entryFileNames:  'assets/js/[name]-[hash].js',
-        assetFileNames:  'assets/[ext]/[name]-[hash].[ext]',
+        chunkFileNames: 'assets/js/[name]-[hash].js',
+        entryFileNames: 'assets/js/[name]-[hash].js',
+        assetFileNames: 'assets/[ext]/[name]-[hash].[ext]',
       },
     },
 
@@ -108,7 +108,7 @@ export default defineConfig(({ mode }) => ({
     port: 3000,
     proxy: {
       '/api': { target: 'http://localhost:8080', changeOrigin: true },
-      '/ws':  { target: 'ws://localhost:8080',   ws: true           },
+      '/ws': { target: 'ws://localhost:8080', ws: true },
     },
     https: false,
     // FIX: removed server.compression — not a valid Vite server option
@@ -155,7 +155,7 @@ export default defineConfig(({ mode }) => ({
 
   // ─── Global Constants ──────────────────────────────────────────────────────
   define: {
-    __DEV__:  mode === 'development',
+    __DEV__: mode === 'development',
     __PROD__: mode === 'production',
   },
 

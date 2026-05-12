@@ -23,7 +23,19 @@ export default function ProtectedRoute({
   redirectTo = '/login',
 }: ProtectedRouteProps) {
   const location = useLocation()
-  const { user, isAuthenticated, isMfaVerified } = useAuth()
+  const { user, isAuthenticated, isMfaVerified, loading } = useAuth()
+
+  // Show loading state while auth is being restored
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-bg">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-accent border-t-transparent rounded-full animate-spin" />
+          <p className="text-sm text-text-secondary">Restoring session...</p>
+        </div>
+      </div>
+    )
+  }
 
   // Not authenticated — redirect to login
   if (!isAuthenticated) {

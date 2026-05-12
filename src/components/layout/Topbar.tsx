@@ -44,14 +44,23 @@ const Topbar: React.FC<TopbarProps> = ({ onMenuClick, sidebarOpen = false }) => 
     const ztRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        const timer = setInterval(() => setSystemTime(new Date()), 1000)
-        return () => clearInterval(timer)
-    }, [])
+        // Consolidated simulation interval for production optimization
+        // In production, replace this with real API calls
+        if (import.meta.env.DEV) {
+            let tick = 0
+            const timer = setInterval(() => {
+                tick++
+                // Update system time every tick (1s)
+                setSystemTime(new Date())
 
-    // Simulate dynamic latency between 1-20 ms
-    useEffect(() => {
-        const timer = setInterval(() => setHsmLatency(Math.floor(Math.random() * 20) + 1), 3000)
-        return () => clearInterval(timer)
+                // Update HSM latency every 3 ticks (3s)
+                if (tick % 3 === 0) {
+                    setHsmLatency(Math.floor(Math.random() * 20) + 1)
+                }
+            }, 1000)
+
+            return () => clearInterval(timer)
+        }
     }, [])
 
     // Close popovers on escape

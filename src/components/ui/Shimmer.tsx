@@ -41,12 +41,12 @@ export const Shimmer: React.FC<ShimmerProps> = ({
             <div className={`shimmer-card-wrapper ${className}`}>
                 <div className="shimmer-card-header">
                     <div className="shimmer-avatar" />
-                    <div className="shimmer-text" style={{ width: '60%', height: '16px' }} />
+                    <div className="shimmer-text w-3/5 h-4" />
                 </div>
                 <div className="shimmer-card-body">
-                    <div className="shimmer-line" style={{ marginBottom: '12px' }} />
-                    <div className="shimmer-line" style={{ width: '80%', marginBottom: '12px' }} />
-                    <div className="shimmer-line" style={{ width: '60%' }} />
+                    <div className="shimmer-line mb-3" />
+                    <div className="shimmer-line w-4/5 mb-3" />
+                    <div className="shimmer-line w-3/5" />
                 </div>
             </div>
         )
@@ -73,11 +73,11 @@ interface ShimmerGroupProps {
 export const ShimmerGroup: React.FC<ShimmerGroupProps> = ({ count = 3, variant = 'user-list' }) => {
     if (variant === 'user-list') {
         return (
-            <div className="shimmer-group" style={{ gap: '12px' }}>
+            <div className="shimmer-group gap-3">
                 {Array.from({ length: count }).map((_, i) => (
                     <div key={i} className="shimmer-user-row">
                         <Shimmer variant="avatar" width={40} height={40} />
-                        <div style={{ flex: 1 }}>
+                        <div className="flex-1">
                             <Shimmer variant="text" width="70%" height="16px" />
                             <Shimmer variant="text" width="50%" height="12px" />
                         </div>
@@ -89,7 +89,7 @@ export const ShimmerGroup: React.FC<ShimmerGroupProps> = ({ count = 3, variant =
 
     if (variant === 'data-grid') {
         return (
-            <div className="shimmer-group" style={{ gap: '16px' }}>
+            <div className="shimmer-group gap-4">
                 {Array.from({ length: count }).map((_, i) => (
                     <Shimmer key={i} variant="card" />
                 ))}
@@ -99,11 +99,11 @@ export const ShimmerGroup: React.FC<ShimmerGroupProps> = ({ count = 3, variant =
 
     if (variant === 'activity-feed') {
         return (
-            <div className="shimmer-group" style={{ gap: '16px' }}>
+            <div className="shimmer-group gap-4">
                 {Array.from({ length: count }).map((_, i) => (
                     <div key={i} className="shimmer-activity-item">
                         <Shimmer variant="avatar" width={32} height={32} />
-                        <div style={{ flex: 1 }}>
+                        <div className="flex-1">
                             <Shimmer variant="text" width="60%" height="14px" />
                             <Shimmer variant="text" width="40%" height="12px" />
                         </div>

@@ -21,16 +21,23 @@ const Sidebar: React.FC<SidebarProps> = ({ collapsed = false, onToggleCollapse, 
     const userCardRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
-        const timer = setInterval(() => setSessionTime(t => t + 1), 1000)
-        return () => clearInterval(timer)
-    }, [])
-
-    // Simulate HSM latency variation
-    useEffect(() => {
-        const latencyTimer = setInterval(() => {
-            setHsmLatency(Math.max(1, 2 + Math.floor(Math.random() * 4)))
-        }, 5000)
-        return () => clearInterval(latencyTimer)
+        // Consolidated simulation interval for production optimization
+        // In production, replace this with real API calls
+        if (import.meta.env.DEV) {
+            let tick = 0
+            const timer = setInterval(() => {
+                tick++
+                // Update session time every tick (1s)
+                setSessionTime(t => t + 1)
+                
+                // Update HSM latency every 5 ticks (5s)
+                if (tick % 5 === 0) {
+                    setHsmLatency(Math.max(1, 2 + Math.floor(Math.random() * 4)))
+                }
+            }, 1000)
+            
+            return () => clearInterval(timer)
+        }
     }, [])
 
     // Close user menu when clicking outside

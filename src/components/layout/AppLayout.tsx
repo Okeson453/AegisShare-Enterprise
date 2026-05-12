@@ -91,10 +91,8 @@ export default function AppLayout() {
                 className={`
           layout-main flex flex-1 min-w-0 min-h-0 relative
           ${isMobile ? 'flex-col' : 'flex-row'}
-          ${!isMobile ? 'ml-0 lg:ml-[250px]' : ''}
-          ${!isMobile && sidebarCollapsed ? 'lg:ml-[56px]' : ''}
+          ${isMobile ? '' : sidebarCollapsed ? 'lg:ml-14' : 'lg:ml-[250px]'}
         `}
-                style={!isMobile ? { marginLeft: sidebarCollapsed ? '56px' : '250px' } : {}}
             >
                 {/* DESKTOP/TABLET SIDEBAR — Always visible (full or collapsed) */}
                 {!isMobile && (

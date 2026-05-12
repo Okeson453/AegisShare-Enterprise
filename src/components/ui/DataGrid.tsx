@@ -28,12 +28,7 @@ interface DataGridProps<T> {
     className?: string
 }
 
-/**
- * DataGrid Component — Enterprise table with virtualization
- * Features: virtual scrolling, sorting, selection, striped rows
- * Handles 10k+ rows with smooth 60fps performance
- */
-export function DataGrid<T extends { id?: string | number }>(
+export function DataGrid<T extends { id: string | number }>(
     {
         rows,
         columns,
@@ -91,16 +86,17 @@ export function DataGrid<T extends { id?: string | number }>(
         if (selectedRows.length === sortedRows.length) {
             onSelectionChange?.([])
         } else {
-            onSelectionChange?.(sortedRows.map((r, i) => i.toString()))
+            // Use stable row IDs, not array indices
+            onSelectionChange?.(sortedRows.map((r) => String(r.id)))
         }
     }, [selectedRows, sortedRows, onSelectionChange])
 
-    const handleSelectRow = useCallback((index: number) => {
-        const rowId = index.toString()
+    const handleSelectRow = useCallback((rowId: string | number) => {
+        const rowIdStr = String(rowId)
         onSelectionChange?.(
-            selectedRows.includes(rowId)
-                ? selectedRows.filter(id => id !== rowId)
-                : [...selectedRows, rowId]
+            selectedRows.includes(rowIdStr)
+                ? selectedRows.filter(id => id !== rowIdStr)
+                : [...selectedRows, rowIdStr]
         )
     }, [selectedRows, onSelectionChange])
 
@@ -182,11 +178,13 @@ export function DataGrid<T extends { id?: string | number }>(
                             <div style={{ transform: `translateY(${offsetY}px)` }}>
                                 {visibleItems.map((row, localIndex) => {
                                     const globalIndex = startIndex + localIndex
-                                    const isSelected = selectedRows.includes(globalIndex.toString())
+                                    // Use stable row ID instead of array index
+                                    const rowId = String(row.id)
+                                    const isSelected = selectedRows.includes(rowId)
 
                                     return (
                                         <div
-                                            key={globalIndex}
+                                            key={row.id}
                                             className={`
                                                 flex h-10
                                                 border-b border-bd
@@ -202,7 +200,7 @@ export function DataGrid<T extends { id?: string | number }>(
                                                     <input
                                                         type="checkbox"
                                                         checked={isSelected}
-                                                        onChange={() => handleSelectRow(globalIndex)}
+                                                        onChange={() => handleSelectRow(row.id)}
                                                         onClick={(e) => e.stopPropagation()}
                                                         className="w-4 h-4 cursor-pointer"
                                                     />
@@ -214,7 +212,7 @@ export function DataGrid<T extends { id?: string | number }>(
                                                 const value = (row as any)[col.key]
                                                 // On mobile (hidden sm), only show first 2 columns
                                                 const isMobileVisible = colIndex < 2
-                                                
+
                                                 return (
                                                     <div
                                                         key={col.key}
