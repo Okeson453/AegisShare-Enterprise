@@ -902,15 +902,6 @@
     }
 }
 
-opacity: 0;
-}
-
-to {
-    width: 100%;
-    opacity: 1;
-}
-}
-
 /* Gauge fill animation */
 @keyframes gauge-fill {
     from {

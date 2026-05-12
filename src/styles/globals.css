@@ -249,6 +249,12 @@
     /* 18px — textLg */
     --text-xl: 1.25rem;
     /* 20px — textXl */
+    --text-2xl: 1.5rem;
+    /* 24px — text2xl */
+    --text-3xl: 1.875rem;
+    /* 30px — text3xl */
+    --text-4xl: 2.25rem;
+    /* 36px — text4xl */
 
     /* Display scale — Playfair Display */
     --text-display-sm: 1.875rem;
@@ -374,7 +380,7 @@
      GLASS MORPHISM
      ========================================================================== */
     --glass-bg: rgba(5, 14, 27, 0.6);
-    --glass-blur: blur(12px) saturate(0.8);
+    --glass-blur: blur(16px) saturate(1.4);
     --glass-backdrop: var(--glass-bg) var(--glass-blur);
 }
 
@@ -383,8 +389,9 @@
    ============================================================================= */
 
 .glass {
-    background: rgba(15, 23, 42, 0.7);
-    backdrop-filter: blur(12px);
+    background: var(--glass-bg);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
     border: 1px solid var(--glass-bd);
     box-shadow: var(--glass-glow);
 }
@@ -736,16 +743,7 @@ hr {
     border-radius: var(--radius-xl);
 }
 
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(2, 9, 18, 0.75);
-    backdrop-filter: blur(8px);
-    z-index: var(--z-modal-backdrop);
-}
+/* Modal overlay moved to index.css for canonical definition */
 
 /* =============================================================================
    TOAST NOTIFICATIONS — Action feedback system
@@ -755,20 +753,19 @@ hr {
    TOAST NOTIFICATIONS — Action feedback system with severity-based styling
    ============================================================================= */
 
-.toast-container {
-    position: fixed;
-    bottom: 24px;
-    right: 24px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    pointer-events: none;
-    z-index: var(--z-notification);
-}
-
-/* Toast notifications moved to toast-notifications.css - do not duplicate here */
+/* Toast container moved to toast-notifications.css - do not duplicate here */
 
 @keyframes slideInRight {
+    from {
+        transform: translateX(24px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
 
 /* =============================================================================
    EMPTY STATE PATTERNS — Placeholder UI for empty content areas
@@ -827,7 +824,6 @@ hr {
 
 .bento-12 {
     grid-column: span 6;
-}
 }
 
 /* =============================================================================
@@ -1125,13 +1121,6 @@ hr {
 /* =============================================================================
    END OF GLOBAL STYLES
    ============================================================================= */
-right: 24px;
-z-index: var(--z-notification);
-display: flex;
-flex-direction: column;
-gap: 8px;
-max-width: 360px;
-}
 
 .toast {
     background: var(--s1);
@@ -2753,12 +2742,4 @@ input[type="radio"]:disabled {
 
 .tabular-nums {
     font-variant-numeric: tabular-nums;
-}
-
-/* =============================================================================
-   END OF MISSING GLOBAL CSS ADDITIONS
-   ============================================================================= */
-background: var(--glass-3);
-border-color: rgba(34, 211, 238, 0.3);
-box-shadow: var(--glass-glow);
 }

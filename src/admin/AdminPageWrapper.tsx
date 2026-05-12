@@ -1,4 +1,5 @@
 import { ReactNode } from 'react'
+import './AdminPageWrapper.css'
 import RouteTransition from '@/components/routing/RouteTransition'
 import { useToast } from '@/hooks/useToast'
 

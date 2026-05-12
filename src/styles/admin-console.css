@@ -561,6 +561,7 @@
     border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 20px;
     font-size: 0.85rem;
+    font-family: var(--fb);
     color: rgba(148, 163, 184, 0.9);
     transition: background 0.2s ease, border-color 0.2s ease, color 0.2s ease;
     cursor: pointer;
@@ -589,7 +590,7 @@
     border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 0.5rem;
     color: rgba(255, 255, 255, 0.9);
-    font-family: var(--fd);
+    font-family: var(--fb);
     font-size: 0.95rem;
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     will-change: border-color, box-shadow;
@@ -614,7 +615,7 @@
     border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 0.5rem;
     color: rgba(255, 255, 255, 0.9);
-    font-family: var(--fd);
+    font-family: var(--fb);
     font-size: 0.95rem;
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
     cursor: pointer;
@@ -636,7 +637,7 @@
     border: 1px solid rgba(148, 163, 184, 0.2);
     border-radius: 0.5rem;
     color: rgba(255, 255, 255, 0.9);
-    font-family: var(--fd);
+    font-family: var(--fb);
     font-size: 0.95rem;
     resize: vertical;
     transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
@@ -1503,7 +1504,7 @@
 .s12-node-cascaded {
     fill: rgba(239, 68, 68, 0.9);
     filter: drop-shadow(0 0 20px rgba(239, 68, 68, 0.8));
-    animation: pulseRed 1.2s ease-in-out infinite;
+    animation: pulseActive 1.2s ease-in-out infinite;
 }
 
 .s12-node-name {
@@ -1818,7 +1819,7 @@
     background: rgba(251, 191, 36, 0.9);
     border-color: #FBBF24;
     box-shadow: 0 0 16px rgba(251, 191, 36, 0.6);
-    animation: pulseRed 1.2s ease-in-out infinite;
+    animation: pulseActive 1.2s ease-in-out infinite;
 }
 
 .s12-phase-pending .s12-phase-dot {
@@ -2136,7 +2137,7 @@
     border-color: #FBBF24;
     color: #000;
     box-shadow: 0 0 16px rgba(251, 191, 36, 0.6);
-    animation: pulseRed 1.2s ease-in-out infinite;
+    animation: pulseActive 1.2s ease-in-out infinite;
 }
 
 .s12-dr-step-content {
@@ -2304,7 +2305,7 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    z-index: var(--z-modal);
+    z-index: 999;
     animation: fadeIn 0.2s ease;
 }
 
@@ -2502,7 +2503,7 @@
     }
 }
 
-@keyframes pulseRed {
+@keyframes pulseActive {
 
     0%,
     100% {
