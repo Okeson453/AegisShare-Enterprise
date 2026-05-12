@@ -274,7 +274,10 @@ body {
     background-color: rgba(34, 211, 238, 0.03);
 }
 
-/* Bento Grid */
+/* =============================================================================
+   BENTO GRID — canonical definition (single source of truth)
+   ============================================================================= */
+
 .bento {
     display: grid;
     grid-template-columns: repeat(12, 1fr);
@@ -311,6 +314,34 @@ body {
 
 .bento-taller {
     grid-row: span 3;
+}
+
+@media (max-width: 1024px) {
+    .bento-4 {
+        grid-column: span 6;
+    }
+
+    .bento-5 {
+        grid-column: span 8;
+    }
+}
+
+@media (max-width: 768px) {
+
+    .bento,
+    .bento-1,
+    .bento-2,
+    .bento-3,
+    .bento-4,
+    .bento-5,
+    .bento-6 {
+        grid-column: span 12;
+    }
+
+    .bento-tall,
+    .bento-taller {
+        grid-row: span 1;
+    }
 }
 
 /* Global Animations */
