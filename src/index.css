@@ -1,9 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
-@import './styles/toast-notifications.css';
+/* =============================================================================
+   AegisShare Enterprise — Main Entry CSS
+   Import order matters: tokens → fonts → layout → components → pages → extensions → Tailwind
+   ============================================================================= */
+
+/* 1. Design system tokens — MUST be first */
 @import './styles/globals.css';
+
+/* 2. Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
+
+/* 3. Layout & structural */
 @import './styles/layout-global.css';
+@import './styles/layout-primitives.css';
+
+/* 4. Shell components */
 @import './styles/topbar.css';
 @import './styles/sidebar.css';
+
+/* 5. Animations & motion */
+@import './styles/animations.css';
+@import './styles/animation-system.css';
+
+/* 6. Surface & visual system */
+@import './styles/glassmorphism.css';
+@import './styles/shimmer.css';
+@import './styles/modal-glass.css';
+
+/* 7. Notifications */
+@import './styles/toast-notifications.css';
+
+/* 8. Page-level styles */
 @import './styles/responsive-utilities.css';
 @import './styles/secure-vault.css';
 @import './styles/command-center.css';
@@ -16,23 +42,34 @@
 @import './styles/configuration.css';
 @import './styles/admin-console.css';
 
+/* 9. Extension / enhancement layers */
+@import './styles/access-control-extension.css';
+@import './styles/audit-ledger-extension.css';
+@import './styles/command-center-extension.css';
+@import './styles/key-management-extension.css';
+@import './styles/sidebar-extension.css';
+@import './styles/sections/audit-ledger.css';
+
+/* 10. Tailwind — must come after all custom CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
-    /* Backgrounds */
+    /* Backgrounds — 7-step dark ramp (lighter = more elevation) */
     --bg: #020912;
     --s0: #050E1B;
     --s1: #080F1C;
     --s2: #0B1628;
     --s3: #0F1E35;
     --s4: #162744;
+    --s5: #1E3358;
 
-    /* Borders */
+    /* Borders — alpha transparency on white */
     --bd: rgba(255, 255, 255, 0.055);
     --bd1: rgba(255, 255, 255, 0.09);
     --bd2: rgba(255, 255, 255, 0.14);
+    --bd3: rgba(255, 255, 255, 0.22);
 
     /* Text */
     --t0: #EAF0FF;
@@ -40,21 +77,33 @@
     --t2: #4A6682;
     --t3: #253D57;
 
-    /* Accent Colors */
+    /* Accent Colors — with alpha variants */
     --cy: #22D3EE;
     --cy1: rgba(34, 211, 238, 0.12);
     --cy2: rgba(34, 211, 238, 0.06);
+    --cy3: rgba(34, 211, 238, 0.3);
+
     --em: #10B981;
     --em1: rgba(16, 185, 129, 0.12);
     --em2: rgba(16, 185, 129, 0.05);
+    --em3: rgba(16, 185, 129, 0.3);
+
     --am: #F59E0B;
     --am1: rgba(245, 158, 11, 0.12);
+    --am2: rgba(245, 158, 11, 0.05);
+    --am3: rgba(245, 158, 11, 0.3);
+
     --rd: #F43F5E;
     --rd1: rgba(244, 63, 94, 0.14);
+    --rd2: rgba(244, 63, 94, 0.05);
+    --rd3: rgba(244, 63, 94, 0.3);
+
     --vl: #A78BFA;
     --vl1: rgba(167, 139, 250, 0.12);
+    --vl2: rgba(167, 139, 250, 0.05);
+    --vl3: rgba(167, 139, 250, 0.3);
 
-    /* New Accent Colors */
+    /* Extended palette */
     --ice: #E0F7FF;
     --bl: #3B82F6;
     --nv: #6366F1;
@@ -68,12 +117,12 @@
     --glass-bd: rgba(255, 255, 255, 0.10);
     --glass-glow: 0 0 0 1px rgba(34, 211, 238, 0.12), 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
 
-    /* Fonts */
+    /* Fonts — shorthand aliases */
     --fd: 'Playfair Display', serif;
     --fm: 'JetBrains Mono', monospace;
     --fb: 'Plus Jakarta Sans', sans-serif;
 
-    /* Spacing */
+    /* Spacing — compact scale */
     --sp-xs: 4px;
     --sp-sm: 8px;
     --sp-md: 14px;
@@ -87,25 +136,36 @@
     --shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.6);
     --shadow-cy: 0 0 24px rgba(34, 211, 238, 0.08);
 
-    /* Radius */
+    /* Radius — compact aliases */
     --r-sm: 4px;
     --r-md: 7px;
     --r-lg: 10px;
     --r-xl: 14px;
 
-    /* Transitions */
+    /* Transitions & easing */
     --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
     --ease-smooth: cubic-bezier(0.16, 1, 0.3, 1);
     --ease-sharp: cubic-bezier(0.4, 0, 0.2, 1);
+
     --dur-instant: 80ms;
     --dur-fast: 150ms;
     --dur-mid: 280ms;
     --dur-slow: 450ms;
     --dur-crawl: 700ms;
+
     --t-fast: 120ms ease;
     --t-mid: 200ms ease;
     --t-slow: 350ms ease;
+
+    /* Layout dimensions */
+    --sidebar-w: 250px;
+    --sidebar-w-collapsed: 56px;
+    --topbar-h: 64px;
 }
+
+/* =============================================================================
+   BASE RESETS
+   ============================================================================= */
 
 * {
     margin: 0;
@@ -126,7 +186,10 @@ body {
     -moz-osx-font-smoothing: grayscale;
 }
 
-/* Scrollbar styling */
+/* =============================================================================
+   SCROLLBARS
+   ============================================================================= */
+
 ::-webkit-scrollbar {
     width: 10px;
     height: 10px;
@@ -145,7 +208,9 @@ body {
     background: var(--bd1);
 }
 
-/* Component utility classes */
+/* =============================================================================
+   COMPONENT UTILITY CLASSES
+   ============================================================================= */
 .file-badge {
     display: inline-block;
     padding: 0.5rem 0.5rem;
